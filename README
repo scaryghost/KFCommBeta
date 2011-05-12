@@ -14,10 +14,10 @@ To add the community perks, edit the ServerPerks ini file and add:
     Perks=KFCommBeta.KFCBVetSupport
 
 Source code may be viewed here:
-https://github.com/scaryghost/CommBetaPerks
+https://github.com/scaryghost/KFCommBeta
 
 Special thanks to:
     Marco               Creating the server side perks mutator
 
 Wiki page with full change log of each wave:
-https://github.com/scaryghost/CommBetaPerks/wiki
+https://github.com/scaryghost/KFCommBeta/wiki
