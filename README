@@ -1,0 +1,23 @@
+Author:
+Scary Ghost
+
+Install:
+Copy the contents into the system folder to your Killing Floor system folder.
+
+Usage:
+The community beta perks are designed to be used with Marco's Server Side 
+Perks mutator.  You can download that mutator here:
+http://forums.tripwireinteractive.com/showthread.php?t=36065
+
+To add the community perks, edit the ServerPerks ini file and add:
+    Perks=CommBetaPerks.CommBetaBerserker
+    Perks=CommBetaPerks.CommBetaSupport
+
+Source code may be viewed here:
+https://github.com/scaryghost/CommBetaPerks
+
+Special thanks to:
+    Marco               Creating the server side perks mutator
+
+Wiki page with full change log of each wave:
+https://github.com/scaryghost/CommBetaPerks/wiki
