@@ -36,8 +36,7 @@ static function int AddDamage(KFPlayerReplicationInfo KFPRI, KFMonster Injured, 
 
 static function float GetFireSpeedMod(KFPlayerReplicationInfo KFPRI, Weapon Other) {
     if ( KFMeleeGun(Other) != none ) {
-            return default.FireSpeedModArray[min(KFPRI.ClientVeteranSkillLevel,default.maxStockLevel)];
-        }
+        return default.FireSpeedModArray[min(KFPRI.ClientVeteranSkillLevel,default.maxStockLevel)];
     }
     return 1.0;
 }
@@ -55,10 +54,10 @@ static function int ReduceDamage(KFPlayerReplicationInfo KFPRI, KFPawn Injured, 
      *  Wave 1 - Only reduction from melee attacks
      */
 
-    if (DamType == class'DamTypeSlashingAttack' || DamType == class'DamTypeClaws' || DamType == class'ZombieMeleeDamage') {
+    if (DmgType == class'DamTypeSlashingAttack' || DmgType == class'DamTypeClaws' || DmgType == class'ZombieMeleeDamage') {
         return float(InDamage) * default.ReduceDamageArray[min(KFPRI.ClientVeteranSkillLevel,default.maxStockLevel)].genDamRed;
     }
-    return InDamage
+    return InDamage;
 }
 
 static function bool CanBeGrabbed(KFPlayerReplicationInfo KFPRI, KFMonster Other) {
@@ -91,7 +90,7 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
 }
 
 static function string GetCustomLevelInfo( byte Level ) {
-    return default.LevelEffects(6);
+    return  default.LevelEffects[6];
 }
 
 defaultproperties {

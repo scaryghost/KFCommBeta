@@ -18,9 +18,9 @@ static function int GetPerkProgressInt( ClientPerkRepLink StatOther, out int Fin
         }
     } else {
         if (ReqNum == 0) {
-           FinalInt= PerkProgressArray[CurLevel].weldPoints;
+           FinalInt= default.PerkProgressArray[CurLevel].weldPoints;
         } else {
-           FinalInt= PerkProgressArray[CurLevel].damPoints;
+           FinalInt= default.PerkProgressArray[CurLevel].damPoints;
         }
     }
 
@@ -100,7 +100,7 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
 }
 
 static function string GetCustomLevelInfo( byte Level ) {
-    return LevelEffects(6);
+    return default.LevelEffects[6];
 }
 
 defaultproperties {
