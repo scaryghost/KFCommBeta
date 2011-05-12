@@ -1,4 +1,4 @@
-class CommBetaSupport extends SRVeterancyTypes
+class KFCBVetSupport extends SRVeterancyTypes
     abstract;
 
 struct perkProgress {

@@ -1,4 +1,4 @@
-class CommBetaBerserker extends SRVeterancyTypes
+class KFCBVetBerserker extends SRVeterancyTypes
     abstract;
 
 struct damReduction {
