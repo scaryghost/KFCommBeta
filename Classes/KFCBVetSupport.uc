@@ -108,7 +108,7 @@ defaultproperties {
 
     OnHUDIcon=Texture'KillingFloorHUD.Perks.Perk_Support'
     OnHUDGoldIcon=Texture'KillingFloor2HUD.Perk_Icons.Perk_Support_Gold'
-    VeterancyName="CommBetaSupport"
+    VeterancyName="KFCommBetaSupport"
     Requirements[0]="Weld %x door hitpoints"
     Requirements[1]="Deal %x damage with shotguns"
     NumRequirements=2

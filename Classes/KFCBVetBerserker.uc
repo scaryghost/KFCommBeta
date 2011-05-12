@@ -98,7 +98,7 @@ defaultproperties {
 
     OnHUDIcon=Texture'KillingFloorHUD.Perks.Perk_Berserker'
     OnHUDGoldIcon=Texture'KillingFloor2HUD.Perk_Icons.Perk_Berserker_Gold'
-    VeterancyName="CommBetaBerserker"
+    VeterancyName="KFCommBetaBerserker"
     Requirements(0)="Deal %x damage with melee weapons"
 
     maxStockLevel= 6
