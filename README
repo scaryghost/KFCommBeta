@@ -10,8 +10,23 @@ Perks mutator.  You can download that mutator here:
 http://forums.tripwireinteractive.com/showthread.php?t=36065
 
 To add the community perks, edit the ServerPerks ini file and add:
+
     Perks=KFCommBeta.KFCBVetBerserker
     Perks=KFCommBeta.KFCBVetSupport
+
+Because the perks that are packaged with the Server Perks mutator are not 
+up to date with the 1017 changes, I have packaged them in the .u file as 
+well.  Added these lines in the ini file to access them:
+
+    Perks=KFCommBeta.KF1017VetBerserker
+    Perks=KFCommBeta.KF1017VetCommando
+    Perks=KFCommBeta.KF1017VetFieldMedic
+    Perks=KFCommBeta.KF1017VetFirebug
+    Perks=KFCommBeta.KF1017VetSharpshooter
+    Perks=KFCommBeta.KF1017VetDemolitions
+    Perks=KFCommBeta.KF1017VetSupport
+
+
 
 Source code may be viewed here:
 https://github.com/scaryghost/KFCommBeta
