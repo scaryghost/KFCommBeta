@@ -1,6 +1,6 @@
 class KFCBMutator extends Mutator;
 
-function PostBeginPlay() {
+simulated function PostBeginPlay() {
     local KFGameType KF;
 
 	KF = KFGameType(Level.Game);
@@ -12,6 +12,8 @@ function PostBeginPlay() {
 		return;
 	}
 
+    betaWave2();
+
 	SetTimer(0.1, false);
 }
 
@@ -20,15 +22,22 @@ function Timer() {
 }
 
 function betaWave2() {
-    //Increase EBR hs multiplier by 0.05
-    class'DamTypeM14EBR'.default.HeadShotDamageMult= 2.30;
+    /**
+     *  Base EBR HS multiplier: 2.25 
+     *  Wave 2: 2.30
+     */
+    class'KFMod.DamTypeM14EBR'.default.HeadShotDamageMult= 2.30;
     
-    //Replace the base arrow with our modded arrow
+    /**
+     * Replace the base arrow with our modded arrow.  See the KFCBCrossbowArrow
+     * class for beta specifics
+     */
     class'CrossbowFire'.default.ProjectileClass= class'KFCBCrossbowArrow';
+
 }
 
 defaultproperties {
-	GroupName="KF"
+	GroupName="KFCommBeta"
 	FriendlyName="KF Community Beta"
-	Description="Loads the suggestions given by the community.  This version in is 1.0"
+	Description="Loads the suggestions given by the community.  This version in is 1.1"
 }
