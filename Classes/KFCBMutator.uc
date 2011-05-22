@@ -19,6 +19,14 @@ function Timer() {
 	Destroy();
 }
 
+function betaWave2() {
+    //Increase EBR hs multiplier by 0.05
+    class'DamTypeM14EBR'.default.HeadShotDamageMult= 2.30;
+    
+    //Increase base damage of Crossbow by 25
+    class'CrossbowArrow'.default.Damage= 325.0;
+}
+
 defaultproperties {
 	GroupName="KF"
 	FriendlyName="KF Community Beta"
