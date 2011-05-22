@@ -13,6 +13,7 @@ To add the community perks, edit the ServerPerks ini file and add:
 
     Perks=KFCommBeta.KFCBVetBerserker
     Perks=KFCommBeta.KFCBVetSupport
+    Perks=KFCommBeta.KFCBVetSharpshooter
 
 Because the perks that are packaged with the Server Perks mutator are not 
 up to date with the 1017 changes, I have packaged them in the .u file as 
@@ -26,6 +27,7 @@ well.  Added these lines in the ini file to access them:
     Perks=KFCommBeta.KF1017VetDemolitions
     Perks=KFCommBeta.KF1017VetSupport
 
+The mutator itself will overwrite values of the default game.
 
 
 Source code may be viewed here:
