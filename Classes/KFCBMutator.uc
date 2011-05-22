@@ -34,6 +34,13 @@ function betaWave2() {
      */
     class'CrossbowFire'.default.ProjectileClass= class'KFCBCrossbowArrow';
 
+
+    /**
+     *  Alter winchester pricing - original £200
+     *  Wave 2: Upped to £400
+     */
+    class'WinchesterPickup'.default.cost= 400;
+
     /**
      *  Make the chainsaw more beastly
      *  Wave 2:
