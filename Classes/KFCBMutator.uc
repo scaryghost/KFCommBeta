@@ -24,7 +24,7 @@ function betaWave2() {
     class'DamTypeM14EBR'.default.HeadShotDamageMult= 2.30;
     
     //Replace the base arrow with our modded arrow
-    class'CrossbowFire'.default.ProjectileClass= class'KFCBCrossbowArrow'
+    class'CrossbowFire'.default.ProjectileClass= class'KFCBCrossbowArrow';
 }
 
 defaultproperties {
