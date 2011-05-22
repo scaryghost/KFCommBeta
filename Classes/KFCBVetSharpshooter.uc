@@ -13,7 +13,9 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
 
 
 defaultproperties {
-     LevelEffects(6)="140% more headshot damage with 9mm, Handcannon, Rifle, Crossbow, and M14|75% less recoil with Handcannon, Rifle, Crossbow, and M14|60% faster reload with Handcannon, Rifle, Crossbow, and M14|50% extra headshot damage|70% discount on Handcannon/M14|Spawn with a Deagle"
+    VeterancyName= "KFCommBetaSharpshooter"
+
+    LevelEffects(6)="140% more headshot damage with 9mm, Handcannon, Rifle, Crossbow, and M14|75% less recoil with Handcannon, Rifle, Crossbow, and M14|60% faster reload with Handcannon, Rifle, Crossbow, and M14|50% extra headshot damage|70% discount on Handcannon/M14|Spawn with a Deagle"
 
 }
 
