@@ -29,10 +29,21 @@ function betaWave2() {
     class'KFMod.DamTypeM14EBR'.default.HeadShotDamageMult= 2.30;
     
     /**
-     * Replace the base arrow with our modded arrow.  See the KFCBCrossbowArrow
-     * class for beta specifics
+     *  Replace the base arrow with our modded arrow.  See the KFCBCrossbowArrow
+     *  class for beta specifics
      */
     class'CrossbowFire'.default.ProjectileClass= class'KFCBCrossbowArrow';
+
+    /**
+     *  Make the chainsaw more beastly
+     *  Wave 2:
+     *      Up the cost to 2500
+     *      Up the damage to 22-27
+     *      Decrease the slowdown rate to 0.20
+     */
+    class'ChainsawPickup'.default.cost= 2500;
+    class'ChainsawFire'.default.damageConst= 22;
+    class'Chainsaw'.default.ChopSlowRate= 0.20;
 
 }
 
