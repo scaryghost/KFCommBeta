@@ -1,6 +1,6 @@
 class KFCBMutator extends Mutator;
 
-simulated function PostBeginPlay() {
+function PostBeginPlay() {
     local KFGameType KF;
 
 	KF = KFGameType(Level.Game);
@@ -13,6 +13,7 @@ simulated function PostBeginPlay() {
 	}
 
     betaWave2();
+    betaWave3();
 
 	SetTimer(0.1, false);
 }
@@ -21,6 +22,20 @@ function Timer() {
 	Destroy();
 }
 
+/*
+function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
+    if (Other.IsA('KFWeapon')) {
+    log("It's a kf weapon!");
+        if (KFWeapon(Other).PickupClass == class'ChainsawPickup') {
+            log("It's a chainsaw!");
+            ReplaceWith(Other, "MP7MMedicGun");
+        
+            return false;
+        }
+    }
+    return true;
+}
+*/
 function betaWave2() {
     /**
      *  Base EBR HS multiplier: 2.25 
@@ -51,7 +66,20 @@ function betaWave2() {
     class'ChainsawPickup'.default.cost= 2500;
     class'ChainsawFire'.default.damageConst= 22;
     class'Chainsaw'.default.ChopSlowRate= 0.20;
+}
 
+function betaWave3() {
+    class'ChainsawFire'.default.AmmoClass= class'ChainsawAmmo';
+    class'ChainsawFire'.default.AmmoPerFire= 2;
+    class'ChainsawAmmo'.default.bAcceptsAmmoPickups= true;
+    class'ChainsawAmmo'.default.AmmoPickupAmount=25;
+    class'ChainsawPickup'.default.AmmoCost= 15;
+    class'ChainsawPickup'.default.BuyClipSize= 20;
+    class'ChainsawPickup'.default.AmmoItemName= "Chainsaw fuel";
+    class'Chainsaw'.default.bAmmoHUDAsBar= true;
+    class'Chainsaw'.default.bConsumesPhysicalAmmo= true;
+    class'Chainsaw'.default.bMeleeWeapon= false;
+    class'Chainsaw'.default.MagCapacity= 100;
 }
 
 defaultproperties {
