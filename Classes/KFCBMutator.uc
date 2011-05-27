@@ -73,15 +73,15 @@ function betaWave3() {
     /**
      *  Set up "fuel" for the chainsaw
      *  Wave 3:
-     *      Cost
-     *      Max Ammo
-     *      Ammo Pickup 
+     *      Cost:       £15 per 100 units
+     *      Max Ammo    2000 units
+     *      Ammo Pickup 100 units
      */
     fuelAmount= 2000;
     class'ChainsawFire'.default.AmmoClass= class'ChainsawAmmo';
     class'ChainsawFire'.default.AmmoPerFire= 1;
     class'ChainsawAmmo'.default.bAcceptsAmmoPickups= true;
-    class'ChainsawAmmo'.default.AmmoPickupAmount=25;
+    class'ChainsawAmmo'.default.AmmoPickupAmount=100;
     class'ChainsawAmmo'.default.MaxAmmo= fuelAmount;
     class'ChainsawAmmo'.default.InitialAmount= fuelAmount;
     class'ChainsawPickup'.default.AmmoCost= 15;
