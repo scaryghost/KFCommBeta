@@ -1,6 +1,6 @@
 class KFCBMutator extends Mutator;
 
-function PostBeginPlay() {
+simulated function PostBeginPlay() {
     local KFGameType KF;
 
 	KF = KFGameType(Level.Game);
@@ -69,21 +69,35 @@ function betaWave2() {
 }
 
 function betaWave3() {
+    local int fuelAmount;
+    /**
+     *  Set up "fuel" for the chainsaw
+     *  Wave 3:
+     *      Cost
+     *      Max Ammo
+     *      Ammo Pickup 
+     */
+    fuelAmount= 2000;
     class'ChainsawFire'.default.AmmoClass= class'ChainsawAmmo';
-    class'ChainsawFire'.default.AmmoPerFire= 2;
+    class'ChainsawFire'.default.AmmoPerFire= 1;
     class'ChainsawAmmo'.default.bAcceptsAmmoPickups= true;
     class'ChainsawAmmo'.default.AmmoPickupAmount=25;
+    class'ChainsawAmmo'.default.MaxAmmo= fuelAmount;
+    class'ChainsawAmmo'.default.InitialAmount= fuelAmount;
     class'ChainsawPickup'.default.AmmoCost= 15;
-    class'ChainsawPickup'.default.BuyClipSize= 20;
+    class'ChainsawPickup'.default.BuyClipSize= 100;
     class'ChainsawPickup'.default.AmmoItemName= "Chainsaw fuel";
     class'Chainsaw'.default.bAmmoHUDAsBar= true;
     class'Chainsaw'.default.bConsumesPhysicalAmmo= true;
     class'Chainsaw'.default.bMeleeWeapon= false;
     class'Chainsaw'.default.MagCapacity= 100;
+    class'Chainsaw'.default.bShowChargingBar= true;
+
+    class'LawProj'.default.Damage= 980;
 }
 
 defaultproperties {
 	GroupName="KFCommBeta"
 	FriendlyName="KF Community Beta"
-	Description="Loads the suggestions given by the community.  This version in is 1.1"
+	Description="Loads the suggestions given by the community.  This version in is 1.2"
 }
