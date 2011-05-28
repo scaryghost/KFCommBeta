@@ -93,7 +93,17 @@ function betaWave3() {
     class'Chainsaw'.default.MagCapacity= 100;
     class'Chainsaw'.default.bShowChargingBar= true;
 
+    /**
+     *  Increase LAW base damage
+     *  Wave 3: Upped to 980 damage
+     */
     class'LawProj'.default.Damage= 980;
+
+    /**
+     *  Replace SCARMK17's default fire class
+     *  See the fire class for more details
+     */
+    class'SCARMK17AssaultRifle'.default.FireModeClass[0]= class'KFCommBeta.KFCBSCARMK17Fire';
 }
 
 defaultproperties {
