@@ -12,6 +12,13 @@ simulated function PostBeginPlay() {
 		return;
 	}
 
+    /**
+     *  Overwrite the pawn with the beta pawn.  
+     *  See the class for details.
+     */
+    KF.PlayerControllerClass= class'KFCommBeta.KFCBPlayerController';
+    KF.PlayerControllerClassName= "KFCommBeta.KFCBPlayerController";
+
     betaWave2();
     betaWave3();
 
