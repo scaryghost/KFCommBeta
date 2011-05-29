@@ -1,7 +1,17 @@
 class KFCBMutator extends Mutator;
 
+struct oldNewZombiePair {
+    var string oldClass;
+    var string newClass;
+    var bool bReplace;
+};
+
+var array<oldNewZombiePair> replacementArray;
+
 simulated function PostBeginPlay() {
     local KFGameType KF;
+    local int i,k;
+    local oldNewZombiePair replacementValue;
 
 	KF = KFGameType(Level.Game);
   	if (Level.NetMode != NM_Standalone)
@@ -24,11 +34,46 @@ simulated function PostBeginPlay() {
     ModifyCommWpn();
     ModifyDemoWpn();
 
+    //Replace all instances of the old specimens with the new ones 
+    for( i=0; i<KF.StandardMonsterClasses.Length; i++) {
+        for(k=0; k<replacementArray.Length; k++) {
+            replacementValue= replacementArray[k];
+            //Use ~= for case insensitive compare
+            if (replacementValue.bReplace && KF.StandardMonsterClasses[i].MClassName ~= replacementValue.oldClass) {
+                KF.StandardMonsterClasses[i].MClassName= replacementValue.newClass;
+            }
+        }
+    }
+
+    //Replace the special squad arrays
+    replaceSpecialSquad(KF.ShortSpecialSquads);
+    replaceSpecialSquad(KF.NormalSpecialSquads);
+    replaceSpecialSquad(KF.LongSpecialSquads);
+    replaceSpecialSquad(KF.FinalSquads);
+
+//    KF.EndGameBossClass= "SuperZombie.ZombieSuperBoss";
+    KF.FallbackMonsterClass= "KFCommBeta.KFCBZombieStalker";
+
 	SetTimer(0.1, false);
 }
 
 function Timer() {
 	Destroy();
+}
+
+function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
+    local int i,j,k;
+    local oldNewZombiePair replacementValue;
+    for(j=0; j<squadArray.Length; j++) {
+        for(i=0;i<squadArray[j].ZedClass.Length; i++) {
+            for(k=0; k<replacementArray.Length; k++) {
+                replacementValue= replacementArray[k];
+                if(replacementValue.bReplace && squadArray[j].ZedClass[i] ~= replacementValue.oldClass) {
+                    squadArray[j].ZedClass[i]=  replacementValue.newClass;
+                }
+            }
+        }
+    }
 }
 
 function ModifySharpWpn() {
@@ -118,4 +163,7 @@ defaultproperties {
 	GroupName="KFCommBeta"
 	FriendlyName="KF Community Beta"
 	Description="Loads the suggestions given by the community.  This version in is 1.2"
+
+    replacementArray(0)=(oldClass="KFChar.ZombieStalker",newClass="KFCommBeta.KFCBZombieStalker",bReplace=true)
+
 }
