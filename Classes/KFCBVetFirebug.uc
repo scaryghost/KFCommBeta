@@ -9,7 +9,7 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
 }
 
 defaultproperties {
-    VeterancyName= "KFCommBBetaFirebug"
+    VeterancyName= "KFCommBetaFirebug"
     LevelEffects(5)="50% extra Flamethrower/Mac10 damage|50% faster Flamethrower reload|25% faster Mac10 reload|50% larger fuel canister|60% larger Mac10 clip|100% resistance to fire|100% extra Flamethrower range|Grenades set enemies on fire|60% discount on the FlameThrower/Mac10|Spawn with a Mac10"
      LevelEffects(6)="60% extra Flamethrower/Mac10 damage|60% faster Flamethrower reload|30% faster Mac10 reload|60% larger fuel canister|60% larger Mac10 clip|100% resistance to fire|100% extra Flamethrower range|Grenades set enemies on fire|70% discount on the FlameThrower/Mac10|Spawn with a Mac10 and Body Armor"
      CustomLevelInfo="%s extra Flamethrower/Mac10 damage|%s faster Flamethrower reload|%m faster Mac10 reload|%s larger fuel canister|%s larger Mac10 clip|100% resistance to fire|100% extra Flamethrower range|Grenades set enemies on fire|%d discount on the FlameThrower/Mac10|Spawn with a Flamethrower"
