@@ -19,8 +19,10 @@ simulated function PostBeginPlay() {
     KF.PlayerControllerClass= class'KFCommBeta.KFCBPlayerController';
     KF.PlayerControllerClassName= "KFCommBeta.KFCBPlayerController";
 
-    betaWave2();
-    betaWave3();
+    ModifySharpWpn();
+    ModifyZerkWpn();
+    ModifyCommWpn();
+    ModifyDemoWpn();
 
 	SetTimer(0.1, false);
 }
@@ -29,21 +31,7 @@ function Timer() {
 	Destroy();
 }
 
-/*
-function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
-    if (Other.IsA('KFWeapon')) {
-    log("It's a kf weapon!");
-        if (KFWeapon(Other).PickupClass == class'ChainsawPickup') {
-            log("It's a chainsaw!");
-            ReplaceWith(Other, "MP7MMedicGun");
-        
-            return false;
-        }
-    }
-    return true;
-}
-*/
-function betaWave2() {
+function ModifySharpWpn() {
     /**
      *  Base EBR HS multiplier: 2.25 
      *  Wave 2: 2.30
@@ -62,6 +50,10 @@ function betaWave2() {
      *  Wave 2: Upped to £400
      */
     class'WinchesterPickup'.default.cost= 400;
+}
+
+function ModifyZerkWpn() {
+    local int fuelAmount, clipAmount;
 
     /**
      *  Make the chainsaw more beastly
@@ -73,10 +65,7 @@ function betaWave2() {
     class'ChainsawPickup'.default.cost= 2500;
     class'ChainsawFire'.default.damageConst= 22;
     class'Chainsaw'.default.ChopSlowRate= 0.20;
-}
 
-function betaWave3() {
-    local int fuelAmount, clipAmount;
     /**
      *  Set up "fuel" for the chainsaw
      *  Wave 3:
@@ -107,17 +96,22 @@ function betaWave3() {
      */
     class'ChainsawAltFire'.default.hitDamageClass= class'KFCommBeta.KFCBDamTypeChainsawAlt';
 
-    /**
-     *  Increase LAW base damage
-     *  Wave 3: Upped to 980 damage
-     */
-    class'LawProj'.default.Damage= 980;
+}
 
+function ModifyCommWpn() {
     /**
      *  Replace SCARMK17's default fire class
      *  See the fire class for more details
      */
     class'SCARMK17AssaultRifle'.default.FireModeClass[0]= class'KFCommBeta.KFCBSCARMK17Fire';
+}
+
+function ModifyDemoWpn() {
+    /**
+     *  Increase LAW base damage
+     *  Wave 3: Upped to 980 damage
+     */
+    class'LawProj'.default.Damage= 980;
 }
 
 defaultproperties {
