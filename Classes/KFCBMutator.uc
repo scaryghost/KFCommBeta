@@ -76,7 +76,7 @@ function betaWave2() {
 }
 
 function betaWave3() {
-    local int fuelAmount;
+    local int fuelAmount, clipAmount;
     /**
      *  Set up "fuel" for the chainsaw
      *  Wave 3:
@@ -84,21 +84,28 @@ function betaWave3() {
      *      Max Ammo    2000 units
      *      Ammo Pickup 100 units
      */
-    fuelAmount= 2000;
+    fuelAmount= 1500;
+    clipAmount= 100;
     class'ChainsawFire'.default.AmmoClass= class'ChainsawAmmo';
     class'ChainsawFire'.default.AmmoPerFire= 1;
     class'ChainsawAmmo'.default.bAcceptsAmmoPickups= true;
-    class'ChainsawAmmo'.default.AmmoPickupAmount=100;
+    class'ChainsawAmmo'.default.AmmoPickupAmount=clipAmount;
     class'ChainsawAmmo'.default.MaxAmmo= fuelAmount;
     class'ChainsawAmmo'.default.InitialAmount= fuelAmount;
     class'ChainsawPickup'.default.AmmoCost= 15;
-    class'ChainsawPickup'.default.BuyClipSize= 100;
+    class'ChainsawPickup'.default.BuyClipSize= clipAmount;
     class'ChainsawPickup'.default.AmmoItemName= "Chainsaw fuel";
     class'Chainsaw'.default.bAmmoHUDAsBar= true;
     class'Chainsaw'.default.bConsumesPhysicalAmmo= true;
     class'Chainsaw'.default.bMeleeWeapon= false;
-    class'Chainsaw'.default.MagCapacity= 100;
+    class'Chainsaw'.default.MagCapacity= clipAmount;
     class'Chainsaw'.default.bShowChargingBar= true;
+
+    /**
+     *  Give chainsaw alt fire its own damage class.  See class 
+     *  for change details
+     */
+    class'ChainsawAltFire'.default.hitDamageClass= class'KFCommBeta.KFCBDamTypeChainsawAlt';
 
     /**
      *  Increase LAW base damage
