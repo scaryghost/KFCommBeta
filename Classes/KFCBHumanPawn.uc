@@ -29,7 +29,6 @@ simulated event ModifyVelocity(float DeltaTime, vector OldVelocity) {
         {
             GroundSpeed *= KFPlayerReplicationInfo(PlayerReplicationInfo).ClientVeteranSkill.static.GetMovementSpeedModifier(KFPlayerReplicationInfo(PlayerReplicationInfo));
         }
-        log("Ground speed: "$GroundSpeed);
     }
 }
 
