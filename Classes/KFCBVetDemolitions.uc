@@ -5,10 +5,14 @@ class KFCBVetDemolitions extends KF1017VetDemolitions
 static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
     local Inventory CurInv;
 
-    // If Level 5, give them a pipe bomb
+    /**
+     *  Change spawn kits for demo
+     *  Wave 4:
+     *      Give M79 to demo at level 5
+     *      Give M79 and 3 extra frags at level 6
+     */
     if ( KFPRI.ClientVeteranSkillLevel >= 5 )
         KFHumanPawn(P).CreateInventoryVeterancy("KFMod.M79GrenadeLauncher", GetCostScaling(KFPRI, class'M79Pickup'));
-    // If Level 6, give them a M79Grenade launcher and pipe bomb
     if ( KFPRI.ClientVeteranSkillLevel >= default.maxStockLevel ) {
         for ( CurInv = P.Inventory; CurInv != none; CurInv = CurInv.Inventory ) {
             if (FragAmmo(CurInv) != none) {
