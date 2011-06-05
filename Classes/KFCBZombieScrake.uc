@@ -2,14 +2,6 @@ class KFCBZombieScrake extends ZombieScrake;
 
 simulated function Timer() {
     bSTUNNED = false;
-    /**
-     *  Alter burn behavior.  Originally is 10 seconds of burn time
-     *  Wave 4:
-     *      - Reduce burn time to 8 seconds
-     *      - Increase spacing between burn damages from [3,5] to [6.5,8.5] 
-     *      - For MAC10, from [3,5] to [8,10] because specimens don't take 
-     *        extra 1.5x damage from MAC10 DOT, new MAC10 DOT > old
-     */
     if (BurnDown > class'KFCBMutator'.default.burnDownEnd) {
         if (FireDamageClass == class'DamTypeFlamethrower') {
             TakeFireDamage(LastBurnDamage + rand(2) + class'KFCBMutator'.default.flameThrowerIncr , LastDamagedBy);

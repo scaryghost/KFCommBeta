@@ -173,6 +173,14 @@ defaultproperties {
 
     replacementArray(0)=(oldClass="KFChar.ZombieStalker",newClass="KFCommBeta.KFCBZombieStalker",bReplace=true)
 
+    /**
+     *  Alter burn behavior.  Originally is 10 seconds of burn time
+     *  Wave 4:
+     *      - Reduce burn time to 8 seconds
+     *      - Increase spacing between burn damages from [3,5] to [6.5,8.5] 
+     *      - For MAC10, from [3,5] to [8,10] because specimens don't take 
+     *        extra 1.5x damage from MAC10 DOT, new MAC10 DOT > old
+     */
     burnDownEnd= 2
     flameThrowerIncr= 6.5
     MAC10Incr= 8
