@@ -10,11 +10,11 @@ simulated function Timer() {
      *      - For MAC10, from [3,5] to [8,10] because specimens don't take 
      *        extra 1.5x damage from MAC10 DOT, new MAC10 DOT > old
      */
-    if (BurnDown > 2) {
+    if (BurnDown > class'KFCBMutator'.default.burnDownEnd) {
         if (FireDamageClass == class'DamTypeFlamethrower') {
-            TakeFireDamage(LastBurnDamage + rand(2) + 6.5 , LastDamagedBy);
+            TakeFireDamage(LastBurnDamage + rand(2) + class'KFCBMutator'.default.flameThrowerIncr , LastDamagedBy);
         } else {
-            TakeFireDamage(LastBurnDamage + rand(2) + 8 , LastDamagedBy);
+            TakeFireDamage(LastBurnDamage + rand(2) + class'KFCBMutator'.default.MAC10Incr , LastDamagedBy);
         }
     }
     else {
@@ -34,7 +34,7 @@ function TakeFireDamage(int Damage,pawn Instigator) {
 
     TakeDamage(Damage, BurnInstigator, DummyHitLoc, DummyMomentum, FireDamageClass);
 
-    if ( BurnDown > 2 ) {
+    if ( BurnDown > class'KFCBMutator'.default.burnDownEnd ) {
         BurnDown --;
     }
 
@@ -42,7 +42,7 @@ function TakeFireDamage(int Damage,pawn Instigator) {
         ZombieCrispUp();
     }
 
-    if ( BurnDown == 2 ) {
+    if ( BurnDown == class'KFCBMutator'.default.burnDownEnd ) {
         bBurnified = false;
         GroundSpeed = default.GroundSpeed;
     }

@@ -8,6 +8,13 @@ struct oldNewZombiePair {
 
 var array<oldNewZombiePair> replacementArray;
 
+/**
+ *  Variables used to configure fire DOT
+ */
+var int burnDownEnd;
+var int flameThrowerIncr;
+var int MAC10Incr;
+
 simulated function PostBeginPlay() {
     local KFGameType KF;
     local int i,k;
@@ -165,5 +172,10 @@ defaultproperties {
 	Description="Loads the suggestions given by the community.  This version in is 1.2"
 
     replacementArray(0)=(oldClass="KFChar.ZombieStalker",newClass="KFCommBeta.KFCBZombieStalker",bReplace=true)
+
+    burnDownEnd= 2
+    flameThrowerIncr= 6.5
+    MAC10Incr= 8
+
 
 }
