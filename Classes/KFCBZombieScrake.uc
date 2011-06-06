@@ -41,6 +41,7 @@ function TakeFireDamage(int Damage,pawn Instigator) {
 }
 
 defaultproperties {
+    MenuName= "KFCommBeta Scrake"
     /**
      *  Appropriately scale panic tick
      *  Wave 4:
