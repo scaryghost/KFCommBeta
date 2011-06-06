@@ -67,8 +67,8 @@ function bool MeleeDamageTarget(int hitdamage, vector pushdir) {
     local bool didIHit;
     
     didIHit= super.MeleeDamageTarget(hitdamage, pushdir);
-    SuperFPZombieController(Controller).bMissTarget= 
-        SuperFPZombieController(Controller).bMissTarget || !didIHit;
+    KFCBFleshPoundZombieController(Controller).bMissTarget= 
+        KFCBFleshPoundZombieController(Controller).bMissTarget || !didIHit;
     return didIHit;
 }
 
