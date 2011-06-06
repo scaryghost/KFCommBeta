@@ -20,14 +20,14 @@ simulated function PostBeginPlay() {
     local int i,k;
     local oldNewZombiePair replacementValue;
 
-	KF = KFGameType(Level.Game);
-  	if (Level.NetMode != NM_Standalone)
-		AddToPackageMap("KFCommBeta");
+    KF = KFGameType(Level.Game);
+    if (Level.NetMode != NM_Standalone)
+        AddToPackageMap("KFCommBeta");
 
-	if (KF == none) {
-		Destroy();
-		return;
-	}
+    if (KF == none) {
+        Destroy();
+        return;
+    }
 
     /**
      *  Overwrite the pawn with the beta pawn.  
@@ -58,14 +58,14 @@ simulated function PostBeginPlay() {
     replaceSpecialSquad(KF.LongSpecialSquads);
     replaceSpecialSquad(KF.FinalSquads);
 
-//    KF.EndGameBossClass= "SuperZombie.ZombieSuperBoss";
+    KF.EndGameBossClass= "KFCommBeta.KFCBZombieBoss";
     KF.FallbackMonsterClass= "KFCommBeta.KFCBZombieStalker";
 
-	SetTimer(0.1, false);
+    SetTimer(0.1, false);
 }
 
 function Timer() {
-	Destroy();
+    Destroy();
 }
 
 function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
@@ -167,11 +167,19 @@ function ModifyDemoWpn() {
 }
 
 defaultproperties {
-	GroupName="KFCommBeta"
-	FriendlyName="KF Community Beta"
-	Description="Loads the suggestions given by the community.  This version in is 1.2"
+    GroupName="KFCommBeta"
+    FriendlyName="KF Community Beta"
+    Description="Loads the suggestions given by the community.  This version is in 1.3"
 
-    replacementArray(0)=(oldClass="KFChar.ZombieStalker",newClass="KFCommBeta.KFCBZombieStalker",bReplace=true)
+    replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="KFCommBeta.KFCBZombieFleshPound",bReplace=true)
+    replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="KFCommBeta.KFCBZombieGorefast",bReplace=true)
+    replacementArray(2)=(oldClass="KFChar.ZombieStalker",newClass="KFCommBeta.KFCBZombieStalker",bReplace=true)
+    replacementArray(3)=(oldClass="KFChar.ZombieSiren",newClass="KFCommBeta.KFCBZombieSiren",bReplace=true)
+    replacementArray(4)=(oldClass="KFChar.ZombieScrake",newClass="KFCommBeta.KFCBZombieScrake",bReplace=true)
+    replacementArray(5)=(oldClass="KFChar.ZombieHusk",newClass="KFCommBeta.KFCBZombieHusk",bReplace=true)
+    replacementArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="KFCommBeta.KFCBZombieCrawler",bReplace=true)
+    replacementArray(7)=(oldClass="KFChar.ZombieBloat",newClass="KFCommBeta.KFCBZombieBloat",bReplace=true)
+    replacementArray(8)=(oldClass="KFChar.ZombieClot",newClass="KFCommBeta.KFCBZombieClot",bReplace=true)
 
     /**
      *  Alter burn behavior.  Originally is 10 seconds of burn time
