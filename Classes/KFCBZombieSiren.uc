@@ -47,8 +47,6 @@ defaultproperties {
      *      Set to 8, with only 8 second burn time 
      */
     CrispUpThreshhold= 8
-}
 
-defaultproperties {
     MenuName= "KCommBeta Siren"
 }

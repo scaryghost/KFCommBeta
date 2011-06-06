@@ -47,8 +47,6 @@ defaultproperties {
      *      Set to 3, with only 8 second burn time 
      */
     CrispUpThreshhold= 3
-}
 
-defaultproperties {
     MenuName= "KFCommBeta Patriarch"
 }
