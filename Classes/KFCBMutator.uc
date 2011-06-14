@@ -6,6 +6,7 @@ struct oldNewZombiePair {
     var bool bReplace;
 };
 
+var() config int minNumPlayers;
 var array<oldNewZombiePair> replacementArray;
 
 /**
@@ -166,10 +167,24 @@ function ModifyDemoWpn() {
     class'LawProj'.default.Damage= 980;
 }
 
+static function FillPlayInfo(PlayInfo PlayInfo) {
+    Super.FillPlayInfo(PlayInfo);
+    PlayInfo.AddSetting("KFCBMutator", "minNumPlayers","Min Number of Players", 0, 1, "Text", "0.1;1:6");
+}
+
+static event string GetDescriptionText(string property) {
+    switch(property) {
+        case "minNumPlayers":
+            return "Sets the minimum number of players used when scaling specimen hp based on player count";
+        default:
+            return Super.GetDescriptionText(property);
+    }
+}
+
 defaultproperties {
     GroupName="KFCommBeta"
     FriendlyName="KF Community Beta"
-    Description="Loads the suggestions given by the community.  This version is in 1.3"
+    Description="Loads the suggestions given by the community.  This version is in 1.4"
 
     replacementArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="KFCommBeta.KFCBZombieFleshPound",bReplace=true)
     replacementArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="KFCommBeta.KFCBZombieGorefast",bReplace=true)
