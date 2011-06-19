@@ -88,49 +88,6 @@ function ModifySharpWpn() {
 }
 
 function ModifyZerkWpn() {
-    local int fuelAmount, clipAmount;
-
-    /**
-     *  Make the chainsaw more beastly
-     *  Wave 2:
-     *      Up the cost to 2500
-     *      Up the damage to 22-27
-     *      Decrease the slowdown rate to 0.20
-     */
-    class'ChainsawPickup'.default.cost= 2500;
-    class'ChainsawFire'.default.damageConst= 22;
-    class'Chainsaw'.default.ChopSlowRate= 0.20;
-
-    /**
-     *  Set up "fuel" for the chainsaw
-     *  Wave 3:
-     *      Cost:       £15 per 100 units
-     *      Max Ammo    2000 units
-     *      Ammo Pickup 100 units
-     */
-    fuelAmount= 1500;
-    clipAmount= 100;
-    class'ChainsawFire'.default.AmmoClass= class'ChainsawAmmo';
-    class'ChainsawFire'.default.AmmoPerFire= 1;
-    class'ChainsawAmmo'.default.bAcceptsAmmoPickups= true;
-    class'ChainsawAmmo'.default.AmmoPickupAmount=clipAmount;
-    class'ChainsawAmmo'.default.MaxAmmo= fuelAmount;
-    class'ChainsawAmmo'.default.InitialAmount= fuelAmount;
-    class'ChainsawPickup'.default.AmmoCost= 15;
-    class'ChainsawPickup'.default.BuyClipSize= clipAmount;
-    class'ChainsawPickup'.default.AmmoItemName= "Chainsaw fuel";
-    class'Chainsaw'.default.bAmmoHUDAsBar= true;
-    class'Chainsaw'.default.bConsumesPhysicalAmmo= true;
-    class'Chainsaw'.default.bMeleeWeapon= false;
-    class'Chainsaw'.default.MagCapacity= clipAmount;
-    class'Chainsaw'.default.bShowChargingBar= true;
-
-    /**
-     *  Give chainsaw alt fire its own damage class.  See class 
-     *  for change details
-     */
-    class'ChainsawAltFire'.default.hitDamageClass= class'KFCommBeta.KFCBDamTypeChainsawAlt';
-
 }
 
 function ModifyCommWpn() {
