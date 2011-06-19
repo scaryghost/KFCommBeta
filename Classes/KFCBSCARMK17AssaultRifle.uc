@@ -1,4 +1,5 @@
-class KFCBSCARMK17AssaultRifle extends SCARMK17AssaultRifle;
+class KFCBSCARMK17AssaultRifle extends SCARMK17AssaultRifle
+    config(user);
 
 defaultproperties {
     /**
