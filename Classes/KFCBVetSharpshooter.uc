@@ -42,7 +42,7 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
      *      Give Winchester, then Deagle at perk levels 5 and 6 respectively
      */
     if ( KFPRI.ClientVeteranSkillLevel == 5 ) {
-        KFHumanPawn(P).CreateInventoryVeterancy("KFMod.Winchester", GetCostScaling(KFPRI, class'WinchesterPickup'));
+        KFHumanPawn(P).CreateInventoryVeterancy("KFCommBeta.KFCBWinchester", GetCostScaling(KFPRI, class'KFCommBeta.KFCBWinchesterPickup'));
     } else if ( KFPRI.ClientVeteranSkillLevel >= default.maxStockLevel ) {
         KFHumanPawn(P).CreateInventoryVeterancy("KFMod.Deagle", GetCostScaling(KFPRI, class'DeaglePickup'));
     }
@@ -53,7 +53,7 @@ static function float GetCostScaling(KFPlayerReplicationInfo KFPRI, class<Pickup
      *  Wave 2:
      *      Added discount for the winchester
      */
-    if ( Item == class'DeaglePickup' || Item == class'DualDeaglePickup' || Item == class'KFCommBeta.KFCBM14EBRPickup' || Item == class'WinchesterPickup')
+    if ( Item == class'DeaglePickup' || Item == class'DualDeaglePickup' || Item == class'KFCommBeta.KFCBM14EBRPickup' || Item == class'KFCommBeta.KFCBWinchesterPickup')
         return FMax(0.9 - (0.10 * float(KFPRI.ClientVeteranSkillLevel)),0.3f); // Up to 70% discount on Handcannon/Dual Handcannons/EBR
     return 1.0;
 }

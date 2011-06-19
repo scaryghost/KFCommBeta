@@ -90,13 +90,6 @@ function ModifySharpWpn() {
      *  class for beta specifics
      */
     class'CrossbowFire'.default.ProjectileClass= class'KFCBCrossbowArrow';
-
-
-    /**
-     *  Alter winchester pricing - original £200
-     *  Wave 2: Upped to £400
-     */
-    class'WinchesterPickup'.default.cost= 400;
 }
 
 function ModifyZerkWpn() {
