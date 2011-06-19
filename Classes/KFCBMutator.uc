@@ -139,11 +139,6 @@ function ModifyZerkWpn() {
 }
 
 function ModifyCommWpn() {
-    /**
-     *  Replace SCARMK17's default fire class
-     *  See the fire class for more details
-     */
-    class'SCARMK17AssaultRifle'.default.FireModeClass[0]= class'KFCommBeta.KFCBSCARMK17Fire';
 }
 
 function ModifyDemoWpn() {
