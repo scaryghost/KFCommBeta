@@ -142,11 +142,6 @@ function ModifyCommWpn() {
 }
 
 function ModifyDemoWpn() {
-    /**
-     *  Increase LAW base damage
-     *  Wave 3: Upped to 980 damage
-     */
-    class'LawProj'.default.Damage= 980;
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
