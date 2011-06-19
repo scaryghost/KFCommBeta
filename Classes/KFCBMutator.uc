@@ -85,11 +85,6 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
 }
 
 function ModifySharpWpn() {
-    /**
-     *  Replace the base arrow with our modded arrow.  See the KFCBCrossbowArrow
-     *  class for beta specifics
-     */
-    class'CrossbowFire'.default.ProjectileClass= class'KFCBCrossbowArrow';
 }
 
 function ModifyZerkWpn() {
