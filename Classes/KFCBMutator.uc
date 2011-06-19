@@ -86,12 +86,6 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
 
 function ModifySharpWpn() {
     /**
-     *  Base EBR HS multiplier: 2.25 
-     *  Wave 2: 2.30
-     */
-    class'KFMod.DamTypeM14EBR'.default.HeadShotDamageMult= 2.30;
-    
-    /**
      *  Replace the base arrow with our modded arrow.  See the KFCBCrossbowArrow
      *  class for beta specifics
      */
