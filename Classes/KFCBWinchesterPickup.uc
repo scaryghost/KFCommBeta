@@ -1,4 +1,4 @@
-class KFCBWinchesterPickup extends WinchesterPickup
+class KFCBWinchesterPickup extends WinchesterPickup;
 
 defaultproperties {
     /**

@@ -1,4 +1,4 @@
-class KFCBWinchester extends Winchester
+class KFCBWinchester extends Winchester;
 
 defaultproperties {
     PickupClass=class'KFCommBeta.KFCBWinchesterPickup'
