@@ -1,8 +1,8 @@
 class KFCBMutator extends Mutator;
 
 struct replacementPair {
-    var string oldClass;
-    var string newClass;
+    var class<Object> oldClass;
+    var class<Object> newClass;
     var bool bReplace;
 };
 
@@ -18,46 +18,44 @@ var int burnDownEnd;
 var int flameThrowerIncr;
 var int MAC10Incr;
 
-function bool IsBigGunClass(class<Pickup> Gun) {
-    return ( Gun == class'ChainsawPickup' );
+function int shouldReplace(string objectName, array<replacementPair> replacementArray) {
+    local int i, replaceIndex;
+
+    replaceIndex= -1;
+    for(i=0; replaceIndex == -1 && i < replacementArray.length; i++) {
+        if (objectName ~= String(replacementArray[i].oldClass)) {
+            replaceIndex = i;
+        }
+    }
+    
+    return replaceIndex;
 }
 
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
-    if (KFWeapon(Other) != none) {
-        if (IsBigGunClass(KFWeapon(Other).PickupClass)) {
-            ReplaceWith(Other,"KFCommBeta.KFCBChainsaw");
-            return false;
-/*
-            Chainsaw(Other).bAmmoHUDAsBar= true;
-            Chainsaw(Other).bConsumesPhysicalAmmo= true;
-            Chainsaw(Other).bMeleeWeapon= false;
-            Chainsaw(Other).MagCapacity= 100;
-            Chainsaw(Other).bShowChargingBar= true;
+    local int index;
 
-            Chainsaw(Other).FireModeClass[0]=class'KFCommBeta.KFCBChainsawFire';
-            Chainsaw(Other).FireModeClass[1]=class'KFCommBeta.KFCBChainsawAltFire';
-
-            Chainsaw(Other).PickupClass=class'KFCommBeta.KFCBChainsawPickup';
-            Chainsaw(Other).ItemName="KFCommBeta Chainsaw";
-
-            Chainsaw(Other).ChopSlowRate=0.20;
-*/
-
-        }
-    }
     if (KFWeaponPickup(Other) != none) {
-        if (IsBigGunClass(KFWeaponPickup(Other).class)) {
-            ReplaceWith(Other,"KFCommBeta.KFCBChainsawPickup");
+        index= shouldReplace(String(Other.class), pickupReplaceArray);
+        if (index != -1) {
+            ReplaceWith(Other,String(pickupReplaceArray[index].newClass));
             return false;
         }
+    } 
+/*
+    else if (KFLevelRules(Other) != none) {
+        for (i=0; i < KFLevelRules(Other).MAX_BUYITEMS; i++) {
+            if (shouldReplace(String(KFLevelRules(Other).ItemForSale[i].class),pickupReplaceArray) != -1) {
+                KFLevelRules(Other).ItemForSale[i]= class<Pickup>(pickupReplaceArray[i].newClass);
+            }
+        }
     }
-//    else if (Other.IsA('KFLevelRules'))
-//        ModifyTrader(KFLevelRules(Other));
+*/
     return true;
 }
 
 function PostBeginPlay() {
     local KFGameType KF;
+    local KFLevelRules Shop;
     local int i,k;
     local replacementPair replacementValue;
 
@@ -77,18 +75,13 @@ function PostBeginPlay() {
     KF.PlayerControllerClass= class'KFCommBeta.KFCBPlayerController';
     KF.PlayerControllerClassName= "KFCommBeta.KFCBPlayerController";
 
-    ModifySharpWpn();
-    ModifyZerkWpn();
-    ModifyCommWpn();
-    ModifyDemoWpn();
-
     //Replace all instances of the old specimens with the new ones 
     for( i=0; i<KF.StandardMonsterClasses.Length; i++) {
         for(k=0; k<zombieReplaceArray.Length; k++) {
             replacementValue= zombieReplaceArray[k];
             //Use ~= for case insensitive compare
-            if (replacementValue.bReplace && KF.StandardMonsterClasses[i].MClassName ~= replacementValue.oldClass) {
-                KF.StandardMonsterClasses[i].MClassName= replacementValue.newClass;
+            if (replacementValue.bReplace && KF.StandardMonsterClasses[i].MClassName ~= String(replacementValue.oldClass)) {
+                KF.StandardMonsterClasses[i].MClassName= String(replacementValue.newClass);
             }
         }
     }
@@ -102,11 +95,16 @@ function PostBeginPlay() {
     KF.EndGameBossClass= "KFCommBeta.KFCBZombieBoss";
     KF.FallbackMonsterClass= "KFCommBeta.KFCBZombieStalker";
 
-    SetTimer(0.1, false);
-}
+    foreach AllActors(class'KFLevelRules', Shop) {
+        if (Shop != None) {
+            for (i=0; i<Shop.MAX_BUYITEMS; i++) {
+                if (shouldReplace(String(Shop.ItemForSale[i].class),pickupReplaceArray) != -1) {
+                    Shop.ItemForSale[i]= class<Pickup>(pickupReplaceArray[i].newClass);
+                }
+            }
+        }
+    }
 
-function Timer() {
-//    Destroy();
 }
 
 function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
@@ -116,24 +114,12 @@ function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
         for(i=0;i<squadArray[j].ZedClass.Length; i++) {
             for(k=0; k<zombieReplaceArray.Length; k++) {
                 replacementValue= zombieReplaceArray[k];
-                if(replacementValue.bReplace && squadArray[j].ZedClass[i] ~= replacementValue.oldClass) {
-                    squadArray[j].ZedClass[i]=  replacementValue.newClass;
+                if(replacementValue.bReplace && squadArray[j].ZedClass[i] ~= String(replacementValue.oldClass)) {
+                    squadArray[j].ZedClass[i]=  String(replacementValue.newClass);
                 }
             }
         }
     }
-}
-
-function ModifySharpWpn() {
-}
-
-function ModifyZerkWpn() {
-}
-
-function ModifyCommWpn() {
-}
-
-function ModifyDemoWpn() {
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo) {
@@ -155,24 +141,24 @@ defaultproperties {
     FriendlyName="KF Community Beta"
     Description="Loads the suggestions given by the community.  This version is in 1.4"
 
-    zombieReplaceArray(0)=(oldClass="KFChar.ZombieFleshPound",newClass="KFCommBeta.KFCBZombieFleshPound",bReplace=true)
-    zombieReplaceArray(1)=(oldClass="KFChar.ZombieGorefast",newClass="KFCommBeta.KFCBZombieGorefast",bReplace=true)
-    zombieReplaceArray(2)=(oldClass="KFChar.ZombieStalker",newClass="KFCommBeta.KFCBZombieStalker",bReplace=true)
-    zombieReplaceArray(3)=(oldClass="KFChar.ZombieSiren",newClass="KFCommBeta.KFCBZombieSiren",bReplace=true)
-    zombieReplaceArray(4)=(oldClass="KFChar.ZombieScrake",newClass="KFCommBeta.KFCBZombieScrake",bReplace=true)
-    zombieReplaceArray(5)=(oldClass="KFChar.ZombieHusk",newClass="KFCommBeta.KFCBZombieHusk",bReplace=true)
-    zombieReplaceArray(6)=(oldClass="KFChar.ZombieCrawler",newClass="KFCommBeta.KFCBZombieCrawler",bReplace=true)
-    zombieReplaceArray(7)=(oldClass="KFChar.ZombieBloat",newClass="KFCommBeta.KFCBZombieBloat",bReplace=true)
-    zombieReplaceArray(8)=(oldClass="KFChar.ZombieClot",newClass="KFCommBeta.KFCBZombieClot",bReplace=true)
+    zombieReplaceArray(0)=(oldClass=class'KFChar.ZombieFleshPound',newClass=class'KFCommBeta.KFCBZombieFleshPound',bReplace=true)
+    zombieReplaceArray(1)=(oldClass=class'KFChar.ZombieGorefast',newClass=class'KFCommBeta.KFCBZombieGorefast',bReplace=true)
+    zombieReplaceArray(2)=(oldClass=class'KFChar.ZombieStalker',newClass=class'KFCommBeta.KFCBZombieStalker',bReplace=true)
+    zombieReplaceArray(3)=(oldClass=class'KFChar.ZombieSiren',newClass=class'KFCommBeta.KFCBZombieSiren',bReplace=true)
+    zombieReplaceArray(4)=(oldClass=class'KFChar.ZombieScrake',newClass=class'KFCommBeta.KFCBZombieScrake',bReplace=true)
+    zombieReplaceArray(5)=(oldClass=class'KFChar.ZombieHusk',newClass=class'KFCommBeta.KFCBZombieHusk',bReplace=true)
+    zombieReplaceArray(6)=(oldClass=class'KFChar.ZombieCrawler',newClass=class'KFCommBeta.KFCBZombieCrawler',bReplace=true)
+    zombieReplaceArray(7)=(oldClass=class'KFChar.ZombieBloat',newClass=class'KFCommBeta.KFCBZombieBloat',bReplace=true)
+    zombieReplaceArray(8)=(oldClass=class'KFChar.ZombieClot',newClass=class'KFCommBeta.KFCBZombieClot',bReplace=true)
 
-    pickupReplaceArray(0)=(oldClass="KFMod.ChainsawPickup",newClass="KFCommBeta.KFCBChainsawPickup",bReplace=true)
-    pickupReplaceArray(1)=(oldClass="KFMod.CrossbowPickup",newClass="KFCommBeta.KFCBCrossbowPickup",bReplace=true)
-    pickupReplaceArray(2)=(oldClass="KFMod.LAWPickup",newClass="KFCommBeta.KFCBLAWPickup",bReplace=true)
-    pickupReplaceArray(3)=(oldClass="KFMod.M14EBRPickup",newClass="KFCommBeta.KFCBM14EBRPickup",bReplace=true)
-    pickupReplaceArray(4)=(oldClass="KFMod.SCARMK17Pickup",newClass="KFCommBeta.KFCBSCARMK17Pickup",bReplace=true)
-    pickupReplaceArray(5)=(oldClass="KFMod.WinchesterPickup",newClass="KFCommBeta.KFCBWinchesterPickup",bReplace=true)
+    pickupReplaceArray(0)=(oldClass=class'KFMod.ChainsawPickup',newClass=class'KFCommBeta.KFCBChainsawPickup',bReplace=true)
+    pickupReplaceArray(1)=(oldClass=class'KFMod.CrossbowPickup',newClass=class'KFCommBeta.KFCBCrossbowPickup',bReplace=true)
+    pickupReplaceArray(2)=(oldClass=class'KFMod.LAWPickup',newClass=class'KFCommBeta.KFCBLAWPickup',bReplace=true)
+    pickupReplaceArray(3)=(oldClass=class'KFMod.M14EBRPickup',newClass=class'KFCommBeta.KFCBM14EBRPickup',bReplace=true)
+    pickupReplaceArray(4)=(oldClass=class'KFMod.SCARMK17Pickup',newClass=class'KFCommBeta.KFCBSCARMK17Pickup',bReplace=true)
+    pickupReplaceArray(5)=(oldClass=class'KFMod.WinchesterPickup',newClass=class'KFCommBeta.KFCBWinchesterPickup',bReplace=true)
 
-    ammoReplaceArray(0)=(oldClass="KFMod.ChainsawAmmo",newClass="KFCommBeta.KFCBChainsawAmmo",bReplace=true)
+    ammoReplaceArray(0)=(oldClass=class'KFMod.ChainsawAmmo',newClass=class'KFCommBeta.KFCBChainsawAmmo',bReplace=true)
 
     /**
      *  Alter burn behavior.  Originally is 10 seconds of burn time
