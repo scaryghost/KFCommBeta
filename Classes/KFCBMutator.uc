@@ -55,7 +55,6 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
 
 function PostBeginPlay() {
     local KFGameType KF;
-    local KFLevelRules Shop;
     local int i,k;
     local replacementPair replacementValue;
 
@@ -67,6 +66,7 @@ function PostBeginPlay() {
         Destroy();
         return;
     }
+
 
     /**
      *  Overwrite the pawn with the beta pawn.  
@@ -95,16 +95,21 @@ function PostBeginPlay() {
     KF.EndGameBossClass= "KFCommBeta.KFCBZombieBoss";
     KF.FallbackMonsterClass= "KFCommBeta.KFCBZombieStalker";
 
-    foreach AllActors(class'KFLevelRules', Shop) {
-        if (Shop != None) {
-            for (i=0; i<Shop.MAX_BUYITEMS; i++) {
-                if (shouldReplace(String(Shop.ItemForSale[i].class),pickupReplaceArray) != -1) {
-                    Shop.ItemForSale[i]= class<Pickup>(pickupReplaceArray[i].newClass);
-                }
-            }
+    settimer(1.0,false);
+
+}
+
+function timer() {
+    local KFLevelRules Shop;
+    local int i,index;
+    
+    Shop= KFGameType(Level.Game).KFLRules;
+    for (i=0; i<50; i++) {
+        index= shouldReplace(String(Shop.ItemForSale[i]),pickupReplaceArray);
+        if (index != -1) {
+            Shop.ItemForSale[i]= class<Pickup>(pickupReplaceArray[index].newClass);
         }
     }
-
 }
 
 function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {
