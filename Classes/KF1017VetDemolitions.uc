@@ -57,7 +57,7 @@ static function float GetCostScaling(KFPlayerReplicationInfo KFPRI, class<Pickup
     if ( Item == class'PipeBombPickup' ) {
         return 0.5 - (0.04 * float(KFPRI.ClientVeteranSkillLevel)); 
     }
-    else if ( Item == class'M79Pickup' || Item == class 'M32Pickup' || Item == class 'LawPickup' ) {
+    else if ( Item == class'M79Pickup' || Item == class 'M32Pickup' || Item == class 'KFCommBeta.KFCBLawPickup' ) {
         return 0.90 - (0.10 * float(KFPRI.ClientVeteranSkillLevel));
     }
     return 1.0;
@@ -68,7 +68,7 @@ static function float GetAmmoCostScaling(KFPlayerReplicationInfo KFPRI, class<Pi
     if ( Item == class'PipeBombPickup' ) {
         return 0.5 - (0.04 * float(KFPRI.ClientVeteranSkillLevel)); 
     }
-    else if ( Item == class'M79Pickup' || Item == class'M32Pickup' || Item == class'LAWPickup' ) {
+    else if ( Item == class'M79Pickup' || Item == class'M32Pickup' || Item == class'KFCommBeta.KFCBLAWPickup' ) {
         return 1.0 - (0.05 * float(KFPRI.ClientVeteranSkillLevel));
     }
     return 1.0;

@@ -64,7 +64,7 @@ static function int ZedTimeExtensions(KFPlayerReplicationInfo KFPRI) {
 
 // Change the cost of particular items
 static function float GetCostScaling(KFPlayerReplicationInfo KFPRI, class<Pickup> Item) {
-    if ( Item == class'ChainsawPickup' || Item == class'KatanaPickup')
+    if ( Item == class'KFCommBeta.KFCBChainsawPickup' || Item == class'KatanaPickup')
         return FMax(0.9 - (0.10 * float(KFPRI.ClientVeteranSkillLevel)),0.3); // Up to 70% discount on Melee Weapons
     return 1.0;
 }
@@ -73,7 +73,7 @@ static function float GetCostScaling(KFPlayerReplicationInfo KFPRI, class<Pickup
 static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
     // If Level 5 or 6, give them Chainsaw
     if ( KFPRI.ClientVeteranSkillLevel >= 5 ) {
-        KFHumanPawn(P).CreateInventoryVeterancy("KFMod.Chainsaw", GetCostScaling(KFPRI, class'ChainsawPickup'));
+        KFHumanPawn(P).CreateInventoryVeterancy("KFCommBeta.KFCBChainsaw", GetCostScaling(KFPRI, class'KFCommBeta.KFCBChainsawPickup'));
     }
 
     // If Level 6, give them Body Armor(Removed from Suicidal and HoE in Balance Round 7)

@@ -20,7 +20,7 @@ static function float GetHeadShotDamMulti(KFPlayerReplicationInfo KFPRI, class<D
     // Removed extra SS Crossbow headshot damage in Round 1(added back in Round 2) and Removed Single/Dualies Damage for Hell on Earth in Round 6
     // Added Dual Deagles back in for Balance Round 7
     if ( DmgType == class'DamTypeCrossbow' || DmgType == class'DamTypeCrossbowHeadShot' || DmgType == class'DamTypeWinchester' ||
-         DmgType == class'DamTypeDeagle' || DmgType == class'DamTypeDualDeagle' || DmgType == class'DamTypeM14EBR' ||
+         DmgType == class'DamTypeDeagle' || DmgType == class'DamTypeDualDeagle' || DmgType == class'KFCommBeta.KFCBDamTypeM14EBR' ||
          (DmgType == class'DamTypeDualies' && KFPRI.Level.Game.GameDifficulty < 7.0) ) {
         if ( KFPRI.ClientVeteranSkillLevel <= 3 )  {
             ret = 1.05 + (0.05 * float(KFPRI.ClientVeteranSkillLevel));
@@ -93,13 +93,13 @@ static function float GetReloadSpeedModifier(KFPlayerReplicationInfo KFPRI, KFWe
 
 // Change the cost of particular items
 static function float GetCostScaling(KFPlayerReplicationInfo KFPRI, class<Pickup> Item) {
-    if ( Item == class'DeaglePickup' || Item == class'DualDeaglePickup' || Item == class'M14EBRPickup')
+    if ( Item == class'DeaglePickup' || Item == class'DualDeaglePickup' || Item == class'KFCommBeta.KFCBM14EBRPickup')
         return FMax(0.9 - (0.10 * float(KFPRI.ClientVeteranSkillLevel)),0.3f); // Up to 70% discount on Handcannon/Dual Handcannons/EBR
     return 1.0;
 }
 
 static function float GetAmmoCostScaling(KFPlayerReplicationInfo KFPRI, class<Pickup> Item) {
-    if ( Item == class'CrossbowPickup' )
+    if ( Item == class'KFCommBeta.KFCBCrossbowPickup' )
         return FMax(1.0 - (0.07 * float(KFPRI.ClientVeteranSkillLevel)),0.58f); // Up to 42% discount on Crossbow Bolts(Added in Balance Round 4 at 30%, increased to 42% in Balance Round 7)
     return 1.0;
 }
@@ -108,11 +108,11 @@ static function float GetAmmoCostScaling(KFPlayerReplicationInfo KFPRI, class<Pi
 static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
     // If Level 5, give them a  Lever Action Rifle
     if ( KFPRI.ClientVeteranSkillLevel == 5 )
-        KFHumanPawn(P).CreateInventoryVeterancy("KFMod.Winchester", GetCostScaling(KFPRI, class'DualDeaglePickup'));
+        KFHumanPawn(P).CreateInventoryVeterancy("KFCommBeta.KFCBWinchester", GetCostScaling(KFPRI, class'KFCommBeta.KFCBWinchesterPickup'));
 
     // If Level 6, give them a Crossbow
     if ( KFPRI.ClientVeteranSkillLevel >= 6 )
-        KFHumanPawn(P).CreateInventoryVeterancy("KFMod.Crossbow", GetCostScaling(KFPRI, class'CrossbowPickup'));
+        KFHumanPawn(P).CreateInventoryVeterancy("KFCommBeta.KFCBCrossbow", GetCostScaling(KFPRI, class'KFCommBeta.KFCBCrossbowPickup'));
 }
 
 static function string GetCustomLevelInfo( byte Level ) {
