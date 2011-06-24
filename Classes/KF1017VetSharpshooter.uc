@@ -21,7 +21,7 @@ static function float GetHeadShotDamMulti(KFPlayerReplicationInfo KFPRI, class<D
     // Added Dual Deagles back in for Balance Round 7
     if ( DmgType == class'DamTypeCrossbow' || DmgType == class'DamTypeCrossbowHeadShot' || DmgType == class'DamTypeWinchester' ||
          DmgType == class'DamTypeDeagle' || DmgType == class'DamTypeDualDeagle' || DmgType == class'KFCommBeta.KFCBDamTypeM14EBR' ||
-         (DmgType == class'DamTypeDualies' && KFPRI.Level.Game.GameDifficulty < 7.0) ) {
+         ((DmgType == class'DamTypeDualies' || DmgType == class'KFCommBeta.KFCBDamTypeSingle') && KFPRI.Level.Game.GameDifficulty < 7.0) ) {
         if ( KFPRI.ClientVeteranSkillLevel <= 3 )  {
             ret = 1.05 + (0.05 * float(KFPRI.ClientVeteranSkillLevel));
         }
@@ -36,7 +36,7 @@ static function float GetHeadShotDamMulti(KFPlayerReplicationInfo KFPRI, class<D
         }
     }
     // Reduced extra headshot damage for Single/Dualies in Hell on Earth difficulty(added in Balance Round 6)
-    else if ( DmgType == class'DamTypeDualies' && KFPRI.Level.Game.GameDifficulty >= 7.0 ) {
+    else if ( (DmgType == class'DamTypeDualies' || DmgType == class'KFCommBeta.KFCBDamTypeSingle') && KFPRI.Level.Game.GameDifficulty >= 7.0 ) {
         return (1.0 + (0.08 * float(Min(KFPRI.ClientVeteranSkillLevel, 5)))); // 40% increase in Headshot Damage
     }
     else {
