@@ -95,7 +95,7 @@ function PostBeginPlay() {
     KF.EndGameBossClass= "KFCommBeta.KFCBZombieBoss";
     KF.FallbackMonsterClass= "KFCommBeta.KFCBZombieStalker";
 
-    settimer(1.0,false);
+    SetTimer(1.0,false);
 
 }
 
@@ -162,6 +162,8 @@ defaultproperties {
     pickupReplaceArray(3)=(oldClass=class'KFMod.M14EBRPickup',newClass=class'KFCommBeta.KFCBM14EBRPickup',bReplace=true)
     pickupReplaceArray(4)=(oldClass=class'KFMod.SCARMK17Pickup',newClass=class'KFCommBeta.KFCBSCARMK17Pickup',bReplace=true)
     pickupReplaceArray(5)=(oldClass=class'KFMod.WinchesterPickup',newClass=class'KFCommBeta.KFCBWinchesterPickup',bReplace=true)
+    pickupReplaceArray(6)=(oldClass=class'KFMod.SinglePickup',newClass=class'KFCommBeta.KFCBSinglePickup',bReplace=true)
+    pickupReplaceArray(7)=(oldClass=class'KFMod.DualiesPickup',newClass=class'KFCommBeta.KFCBDualiesPickup',bReplace=true)
 
     ammoReplaceArray(0)=(oldClass=class'KFMod.ChainsawAmmo',newClass=class'KFCommBeta.KFCBChainsawAmmo',bReplace=true)
 

@@ -32,3 +32,11 @@ simulated event ModifyVelocity(float DeltaTime, vector OldVelocity) {
     }
 }
 
+defaultproperties {
+    RequiredEquipment(0)="KFMod.Knife"
+    RequiredEquipment(1)="KFCommBeta.KFCBSingle"
+    RequiredEquipment(2)="KFMod.Frag"
+    RequiredEquipment(3)="KFMod.Syringe"
+    RequiredEquipment(4)="KFMod.Welder"
+}
+
