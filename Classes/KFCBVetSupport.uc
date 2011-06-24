@@ -22,11 +22,13 @@ static function float AddExtraAmmoFor(KFPlayerReplicationInfo KFPRI, Class<Ammun
 static function int AddDamage(KFPlayerReplicationInfo KFPRI, KFMonster Injured, KFPawn DamageTaker, int InDamage, class<DamageType> DmgType) {
     /**
      *  Wave 1 - Removed extra frag damage
+     *  Wave 5 - Added damage bonus for dual hand cannons, up to 60% at level 6
      */
-    if ( DmgType == class'DamTypeShotgun' || DmgType == class'DamTypeDBShotgun' || DmgType == class'DamTypeAA12Shotgun' ) {
+    if ( DmgType == class'DamTypeShotgun' || DmgType == class'DamTypeDBShotgun' 
+        || DmgType == class'DamTypeAA12Shotgun' || DmgType == class'DamTypeDualDeagle') {
         if ( KFPRI.ClientVeteranSkillLevel == 0 )
             return float(InDamage) * 1.10;
-        return float(InDamage) * (1.00 + (0.10 * float(min(KFPRI.ClientVeteranSkillLevel, default.maxStockLevel)))); // Up to 60% more damage with Shotguns
+        return float(InDamage) * (1.00 + (0.10 * float(min(KFPRI.ClientVeteranSkillLevel, default.maxStockLevel)))); 
     }
     return InDamage;
 }
@@ -34,11 +36,11 @@ static function int AddDamage(KFPlayerReplicationInfo KFPRI, KFMonster Injured, 
 defaultproperties {
     VeterancyName= "KFCommBetaSupport"
 
-    LevelEffects(0)="10% more damage with Shotguns|10% better Shotgun penetration|10% faster welding/unwelding|10% discount on Shotguns"
-    LevelEffects(1)="10% more damage with Shotguns|18% better Shotgun penetration|10% extra shotgun ammo|15% increased carry weight|25% faster welding/unwelding|20% discount on Shotguns"
-    LevelEffects(2)="20% more damage with Shotguns|36% better Shotgun penetration|20% extra shotgun ammo|20% increased carry weight|50% faster welding/unwelding|30% discount on Shotguns"
-    LevelEffects(3)="30% more damage with Shotguns|54% better Shotgun penetration|25% extra shotgun ammo|25% increased carry weight|75% faster welding/unwelding|40% discount on Shotguns"
-    LevelEffects(4)="40% more damage with Shotguns|72% better Shotgun penetration|25% extra shotgun ammo|30% increased carry weight|100% faster welding/unwelding|50% discount on Shotguns"
-    LevelEffects(5)="50% more damage with Shotguns|90% better Shotgun penetration|25% extra shotgun ammo|50% increased carry weight|150% faster welding/unwelding|60% discount on Shotguns|Spawn with a Shotgun"
-    LevelEffects(6)="60% more damage with Shotguns|90% better Shotgun penetration|30% extra shotgun ammo|60% increased carry weight|150% faster welding/unwelding|70% discount on Shotguns|Spawn with a Hunting Shotgun"
+    LevelEffects(0)="10% more damage with Shotguns and Dual Handcannons|10% better Shotgun penetration|10% faster welding/unwelding|10% discount on Shotguns"
+    LevelEffects(1)="10% more damage with Shotguns and Dual Handcannons|18% better Shotgun penetration|10% extra shotgun ammo|15% increased carry weight|25% faster welding/unwelding|20% discount on Shotguns"
+    LevelEffects(2)="20% more damage with Shotguns and Dual Handcannons|36% better Shotgun penetration|20% extra shotgun ammo|20% increased carry weight|50% faster welding/unwelding|30% discount on Shotguns"
+    LevelEffects(3)="30% more damage with Shotguns and Dual Handcannons|54% better Shotgun penetration|25% extra shotgun ammo|25% increased carry weight|75% faster welding/unwelding|40% discount on Shotguns"
+    LevelEffects(4)="40% more damage with Shotguns and Dual Handcannons|72% better Shotgun penetration|25% extra shotgun ammo|30% increased carry weight|100% faster welding/unwelding|50% discount on Shotguns"
+    LevelEffects(5)="50% more damage with Shotguns and Dual Handcannons|90% better Shotgun penetration|25% extra shotgun ammo|50% increased carry weight|150% faster welding/unwelding|60% discount on Shotguns|Spawn with a Shotgun"
+    LevelEffects(6)="60% more damage with Shotguns and Dual Handcannons|90% better Shotgun penetration|30% extra shotgun ammo|60% increased carry weight|150% faster welding/unwelding|70% discount on Shotguns|Spawn with a Hunting Shotgun"
 }
