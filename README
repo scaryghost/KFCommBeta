@@ -5,7 +5,7 @@ Install:
 Copy the contents into the system folder to your Killing Floor system folder.
 
 Usage:
-The community beta perks are designed to be used with Marco's Server Side 
+The KFCommBeta mutator is designed to be used with Marco's Server Side 
 Perks mutator.  You can download that mutator here:
 http://forums.tripwireinteractive.com/showthread.php?t=36065
 
@@ -30,8 +30,8 @@ well.  Added these lines in the ini file to access them:
     Perks=KFCommBeta.KF1017VetDemolitions
     Perks=KFCommBeta.KF1017VetSupport
 
-The mutator itself will overwrite values of the default game.  It will also 
-overwerite the specimen classes and use the beta specimens instead.
+The mutator itself will replace the default weapons with modded ones.  It 
+will also overwerite the specimen classes and use the beta specimens.
 
 
 Source code may be viewed here:
