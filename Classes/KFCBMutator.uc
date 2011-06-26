@@ -18,7 +18,7 @@ var int burnDownEnd;
 var int flameThrowerIncr;
 var int MAC10Incr;
 
-function int shouldReplace(string objectName, array<replacementPair> replacementArray) {
+static function int shouldReplace(string objectName, array<replacementPair> replacementArray) {
     local int i, replaceIndex;
 
     replaceIndex= -1;
@@ -41,15 +41,6 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
             return false;
         }
     } 
-/*
-    else if (KFLevelRules(Other) != none) {
-        for (i=0; i < KFLevelRules(Other).MAX_BUYITEMS; i++) {
-            if (shouldReplace(String(KFLevelRules(Other).ItemForSale[i].class),pickupReplaceArray) != -1) {
-                KFLevelRules(Other).ItemForSale[i]= class<Pickup>(pickupReplaceArray[i].newClass);
-            }
-        }
-    }
-*/
     return true;
 }
 
@@ -95,21 +86,6 @@ function PostBeginPlay() {
     KF.EndGameBossClass= "KFCommBeta.KFCBZombieBoss";
     KF.FallbackMonsterClass= "KFCommBeta.KFCBZombieStalker";
 
-    SetTimer(1.0,false);
-
-}
-
-function timer() {
-    local KFLevelRules Shop;
-    local int i,index;
-    
-    Shop= KFGameType(Level.Game).KFLRules;
-    for (i=0; i<50; i++) {
-        index= shouldReplace(String(Shop.ItemForSale[i]),pickupReplaceArray);
-        if (index != -1) {
-            Shop.ItemForSale[i]= class<Pickup>(pickupReplaceArray[index].newClass);
-        }
-    }
 }
 
 function replaceSpecialSquad(out array<KFGameType.SpecialSquad> squadArray) {

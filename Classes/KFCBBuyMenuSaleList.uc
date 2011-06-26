@@ -19,6 +19,7 @@ function UpdateForSaleBuyables()
         Break;
     }
 
+    
     // Grab Players Veterancy for quick reference
     if ( KFPlayerController(PlayerOwner()) != none && KFPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo).ClientVeteranSkill != none )
     {
@@ -34,6 +35,17 @@ function UpdateForSaleBuyables()
     //Grab the perk's weapons first
     for ( j = 0; j < KFLR.MAX_BUYITEMS; j++ )
     {
+        /**
+         *  This is a hackish way to overwrite the buyable wepaons from the trader.  
+         *  This should be done in the KFCBMutator class but I can get away with this 
+         *  since I had to overwrite the trader sale list anyways so it would know about 
+         *  the beta HC
+         */
+        i= class'KFCommBeta.KFCBMutator'.static.shouldReplace(String(KFLR.ItemForSale[j]),class'KFCommBeta.KFCBMutator'.default.pickupReplaceArray); 
+        if (i != -1) {
+            KFLR.ItemForSale[j]= class<Pickup>(class'KFCommBeta.KFCBMutator'.default.pickupReplaceArray[i].newClass);
+        }
+
         if ( KFLR.ItemForSale[j] != none )
         {
             //Let's see if this is a vest, first aid kit, ammo or stuff we already have
