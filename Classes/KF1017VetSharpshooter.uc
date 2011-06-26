@@ -93,7 +93,7 @@ static function float GetReloadSpeedModifier(KFPlayerReplicationInfo KFPRI, KFWe
 
 // Change the cost of particular items
 static function float GetCostScaling(KFPlayerReplicationInfo KFPRI, class<Pickup> Item) {
-    if ( Item == class'DeaglePickup' || Item == class'DualDeaglePickup' || Item == class'KFCommBeta.KFCBM14EBRPickup')
+    if ( Item == class'KFCommBeta.KFCBDeaglePickup' || Item == class'KFCommBeta.KFCBDualDeaglePickup' || Item == class'KFCommBeta.KFCBM14EBRPickup')
         return FMax(0.9 - (0.10 * float(KFPRI.ClientVeteranSkillLevel)),0.3f); // Up to 70% discount on Handcannon/Dual Handcannons/EBR
     return 1.0;
 }
