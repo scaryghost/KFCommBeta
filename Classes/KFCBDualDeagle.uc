@@ -78,5 +78,5 @@ simulated function bool PutDown()
 
 defaultproperties {
     PickupClass=class'KFCommBeta.KFCBDualDeaglePickup'
-    ItemName="KFCommBeta Dual Deagles"
+    ItemName="KFCommBeta Dual Handcannons"
 }

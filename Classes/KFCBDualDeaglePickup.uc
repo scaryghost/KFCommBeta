@@ -1,7 +1,7 @@
 class KFCBDualDeaglePickup extends DualDeaglePickup;
 
 defaultproperties {
-    ItemName="KFCommBeta Dual Deagles"
-    ItemShortName="KFCB Dual Deagles"
+    ItemName="KFCommBeta Dual Handcannons"
+    ItemShortName="KFCB Dual Handcannons"
     InventoryType=class'KFCommBeta.KFCBDualDeagle'
 }
