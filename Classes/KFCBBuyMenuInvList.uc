@@ -29,9 +29,9 @@ function UpdateMyBuyables()
 	{
 		if ( KFWeapon(CurInv) != none )
 		{
-			if ( KFWeapon(CurInv).default.PickupClass == class'DualDeaglePickup' )
+			if ( KFWeapon(CurInv).default.PickupClass == class'KFCommBeta.KFCBDualDeaglePickup' )
 				bHasDualCannon = true;
-			if ( KFWeapon(CurInv).default.PickupClass == class'DualiesPickup' )
+			if ( KFWeapon(CurInv).default.PickupClass == class'KFCommBeta.KFCBDualiesPickup' )
 				bHasDual = true;
 		}
 	}
@@ -47,14 +47,14 @@ function UpdateMyBuyables()
 		if ( CurInv.IsA('Ammunition') || CurInv.IsA('Welder') || CurInv.IsA('Syringe') )
 			continue;
 
-		if ( CurInv.IsA('DualDeagle') )
+		if ( CurInv.IsA('KFCBDualDeagle') )
 			DualDivider = 2;
 		else DualDivider = 1;
 
 		MyPickup = class<KFWeaponPickup>(KFWeapon(CurInv).default.PickupClass);
 
 		// if we already own dualies, we do not need the single 9mm in the list
-		if ( (bHasDual && MyPickup == class'SinglePickup') || (bHasDualCannon && MyPickup == class'DeaglePickup') )
+		if ( (bHasDual && MyPickup == class'KFCommBeta.KFCBSinglePickup') || (bHasDualCannon && MyPickup == class'KFCommBeta.KFCBDeaglePickup') )
 			continue;
 
 		if ( CurInv.IsA('KFWeapon') )
