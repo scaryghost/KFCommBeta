@@ -40,7 +40,13 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
             ReplaceWith(Other,String(pickupReplaceArray[index].newClass));
             return false;
         }
-    } 
+    } else if (KFWeapon(Other) != none) {
+        index= shouldReplace(String(KFWeapon(Other).PickupClass.class), pickupReplaceArray);
+        if (index != -1) {
+            ReplaceWith(Other,String(class<Pickup>(pickupReplaceArray[index].newClass).default.InventoryType));
+            return false;
+        }
+    }
     return true;
 }
 
