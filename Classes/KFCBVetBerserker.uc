@@ -1,5 +1,12 @@
-class KFCBVetBerserker extends KF1017VetBerserker
+class KFCBVetBerserker extends BaseVetBerserker
     abstract;
+
+struct damReduction {
+    var float bloatDamRed;
+    var float genDamRed;
+};
+
+var array<damReduction> ReduceDamageArray;
 
 static function int ReduceDamage(KFPlayerReplicationInfo KFPRI, KFPawn Injured, KFMonster DamageTaker, int InDamage, class<DamageType> DmgType) {
     /** Vomit - DamTypeVomit
@@ -13,7 +20,12 @@ static function int ReduceDamage(KFPlayerReplicationInfo KFPRI, KFPawn Injured, 
      *              save for a small 5% increase at level 6
      */
 
-    return super.ReduceDamage(KFPRI, Injured, DamageTaker, InDAmage, DmgType);
+    if ( DmgType == class'DamTypeVomit' ) {
+        return float(InDamage) * default.ReduceDamageArray[min(KFPRI.ClientVeteranSkillLevel,6)].bloatDamRed;
+    }
+
+    return float(InDamage) * default.ReduceDamageArray[min(KFPRI.ClientVeteranSkillLevel,6)].genDamRed; 
+
 }
 
 // Give Extra Items as default
@@ -24,7 +36,7 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
      */
     if ( KFPRI.ClientVeteranSkillLevel == 5 ) {
         KFHumanPawn(P).CreateInventoryVeterancy("KFMod.Axe", GetCostScaling(KFPRI, class'AxePickup'));
-    } else if ( KFPRI.ClientVeteranSkillLevel >= default.maxStockLevel ) {
+    } else if ( KFPRI.ClientVeteranSkillLevel >= 6 ) {
         KFHumanPawn(P).CreateInventoryVeterancy("KFMod.Katana", GetCostScaling(KFPRI, class'KatanaPickup'));
     }
 }
@@ -40,14 +52,6 @@ defaultproperties {
     ReduceDamageArray(4)= (bloatDamRed=0.35,genDamRed=0.80)
     ReduceDamageArray(5)= (bloatDamRed=0.25,genDamRed=0.75)
     ReduceDamageArray(6)= (bloatDamRed=0.20,genDamRed=0.70)
-
-    MeleeMovementSpeedModArray(0)= 0.05
-    MeleeMovementSpeedModArray(1)= 0.10
-    MeleeMovementSpeedModArray(2)= 0.15
-    MeleeMovementSpeedModArray(3)= 0.20
-    MeleeMovementSpeedModArray(4)= 0.20
-    MeleeMovementSpeedModArray(5)= 0.20
-    MeleeMovementSpeedModArray(6)= 0.25
 
     LevelEffects(0)="10% extra melee damage|5% faster melee movement|10% resistance to bloat bile|10% discount on Katana/Chainsaw|Can't be grabbed by Clots"
     LevelEffects(1)="20% extra melee damage|5% faster melee attacks|10% faster melee movement|25% resistance to bloat bile|5% resistance to other damage|20% discount on Katana/Chainsaw|Can't be grabbed by Clots"

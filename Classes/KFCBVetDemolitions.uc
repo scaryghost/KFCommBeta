@@ -1,4 +1,4 @@
-class KFCBVetDemolitions extends KF1017VetDemolitions
+class KFCBVetDemolitions extends BaseVetDemolitions
     abstract;
 
 // Give Extra Items as default
@@ -13,7 +13,7 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
      */
     if ( KFPRI.ClientVeteranSkillLevel >= 5 )
         KFHumanPawn(P).CreateInventoryVeterancy("KFMod.M79GrenadeLauncher", GetCostScaling(KFPRI, class'M79Pickup'));
-    if ( KFPRI.ClientVeteranSkillLevel >= default.maxStockLevel ) {
+    if ( KFPRI.ClientVeteranSkillLevel >= 6) {
         for ( CurInv = P.Inventory; CurInv != none; CurInv = CurInv.Inventory ) {
             if (FragAmmo(CurInv) != none) {
                 FragAmmo(CurInv).AmmoAmount+= 3;

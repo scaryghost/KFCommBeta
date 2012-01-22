@@ -1,4 +1,4 @@
-class KFCBVetSharpshooter extends KF1017VetSharpshooter;
+class KFCBVetSharpshooter extends BaseVetSharpshooter;
 
 static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
     /**
@@ -7,7 +7,7 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
      */
     if ( KFPRI.ClientVeteranSkillLevel == 5 ) {
         KFHumanPawn(P).CreateInventoryVeterancy("KFCommBeta.KFCBWinchester", GetCostScaling(KFPRI, class'KFCommBeta.KFCBWinchesterPickup'));
-    } else if ( KFPRI.ClientVeteranSkillLevel >= default.maxStockLevel ) {
+    } else if ( KFPRI.ClientVeteranSkillLevel >= 6) {
         KFHumanPawn(P).CreateInventoryVeterancy("KFCommBeta.KFCBDeagle", GetCostScaling(KFPRI, class'KFCommBeta.KFCBDeaglePickup'));
     }
 }

@@ -1,9 +1,9 @@
-class KFCBVetFirebug extends KF1017VetFirebug;
+class KFCBVetFirebug extends BaseVetFirebug;
 
 static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
     if ( KFPRI.ClientVeteranSkillLevel == 5 ) {
         KFHumanPawn(P).CreateInventoryVeterancy("KFMod.MAC10MP", GetCostScaling(KFPRI, class'MAC10Pickup'));
-    } else if ( KFPRI.ClientVeteranSkillLevel >= default.maxStockLevel ) {
+    } else if ( KFPRI.ClientVeteranSkillLevel >= 6) {
         KFHumanPawn(P).CreateInventoryVeterancy("KFMod.FlameThrower", GetCostScaling(KFPRI, class'FlamethrowerPickup'));
     }
 }

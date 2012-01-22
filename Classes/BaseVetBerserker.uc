@@ -1,4 +1,4 @@
-class KFVetBerserker extends SRVetBerserker
+class BaseVetBerserker extends SRVetBerserker
     abstract;
 
 defaultproperties {

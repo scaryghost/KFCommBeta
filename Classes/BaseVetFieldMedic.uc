@@ -1,4 +1,4 @@
-class KFVetFieldMedic extends SRVetFieldMedic
+class BaseVetFieldMedic extends SRVetFieldMedic
     abstract;
 
 // Change the cost of particular items

@@ -1,4 +1,4 @@
-class KFVetSharpshooter extends SRVetSharpshooter
+class BaseVetSharpshooter extends SRVetSharpshooter
     abstract;
 
 static function float ModifyRecoilSpread(KFPlayerReplicationInfo KFPRI, WeaponFire Other, out float Recoil) {

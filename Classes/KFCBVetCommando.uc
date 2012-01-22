@@ -1,4 +1,4 @@
-class KFCBVetCommando extends KF1017VetCommando
+class KFCBVetCommando extends BaseVetCommando
     abstract;
 
 
@@ -15,7 +15,7 @@ static function int AddDamage(KFPlayerReplicationInfo KFPRI, KFMonster Injured, 
         || DmgType == class'DamTypeSCARMK17AssaultRifle' || DmgType == class'DamTypeDualies') {
         if ( KFPRI.ClientVeteranSkillLevel == 0 )
             return float(InDamage) * 1.05;
-        return float(InDamage) * (1.00 + (0.10 * float(Min(KFPRI.ClientVeteranSkillLevel, default.maxStockLevel))));
+        return float(InDamage) * (1.00 + (0.10 * float(KFPRI.ClientVeteranSkillLevel)));
     }
     return InDamage;
 }

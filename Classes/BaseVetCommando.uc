@@ -1,4 +1,4 @@
-class KFVetCommando extends SRVetCommando
+class BaseVetCommando extends SRVetCommando
     abstract;
 
 defaultproperties {

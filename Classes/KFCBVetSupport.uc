@@ -1,4 +1,4 @@
-class KFCBVetSupport extends KF1017VetSupport
+class KFCBVetSupport extends BaseVetSupport
     abstract;
 
 static function float AddExtraAmmoFor(KFPlayerReplicationInfo KFPRI, Class<Ammunition> AmmoType) {
@@ -28,7 +28,7 @@ static function int AddDamage(KFPlayerReplicationInfo KFPRI, KFMonster Injured, 
         || DmgType == class'DamTypeAA12Shotgun' || DmgType == class'DamTypeDualDeagle') {
         if ( KFPRI.ClientVeteranSkillLevel == 0 )
             return float(InDamage) * 1.10;
-        return float(InDamage) * (1.00 + (0.10 * float(min(KFPRI.ClientVeteranSkillLevel, default.maxStockLevel)))); 
+        return float(InDamage) * (1.00 + (0.10 * KFPRI.ClientVeteranSkillLevel)); 
     }
     return InDamage;
 }

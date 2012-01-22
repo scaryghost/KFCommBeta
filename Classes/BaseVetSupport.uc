@@ -1,4 +1,4 @@
-class KFVetSupport extends SRVetSupportSpec
+class BaseVetSupport extends SRVetSupportSpec
     abstract;
 
 defaultproperties {
