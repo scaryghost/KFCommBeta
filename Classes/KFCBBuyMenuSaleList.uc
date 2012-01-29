@@ -1,228 +1,107 @@
 class KFCBBuyMenuSaleList extends SRBuyMenuSaleList;
 
-function UpdateForSaleBuyables()
-{
+function UpdateForSaleBuyables() {
     local class<KFVeterancyTypes> PlayerVeterancy;
     local KFPlayerReplicationInfo KFPRI;
-    local KFLevelRules KFLR, KFLRit;
+    local ClientPerkRepLink KFLR;
     local GUIBuyable ForSaleBuyable;
     local class<KFWeaponPickup> ForSalePickup;
-    local int i, j, DualDivider, ForSaleArrayIndex;
+    local int j, DualDivider,i;
     local bool bZeroWeight;
+    local class<KFWeapon> ForSaleWeapon;
 
     DualDivider = 1;
 
-    // Grab the items for sale
-    foreach PlayerOwner().DynamicActors(class'KFLevelRules', KFLRit)
-    {
-        KFLR = KFLRit;
-        Break;
-    }
+    //Clear the ForSaleBuyables array
+    CopyAllBuyables();
+    ForSaleBuyables.Length = 0;
 
-    
+    // Grab the items for sale
+    KFLR = Class'ClientPerkRepLink'.Static.FindStats(PlayerOwner());
+    if( KFLR==None )
+        return; // Hmmmm?
+
     // Grab Players Veterancy for quick reference
-    if ( KFPlayerController(PlayerOwner()) != none && KFPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo).ClientVeteranSkill != none )
-    {
+    if ( KFPlayerController(PlayerOwner()) != none )
         PlayerVeterancy = KFPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo).ClientVeteranSkill;
-    }
-    else
-    {
+    if( PlayerVeterancy==None )
         PlayerVeterancy = class'KFVeterancyTypes';
-    }
 
     KFPRI = KFPlayerReplicationInfo(PlayerOwner().PlayerReplicationInfo);
 
     //Grab the perk's weapons first
-    for ( j = 0; j < KFLR.MAX_BUYITEMS; j++ )
-    {
-        /**
-         *  This is a hackish way to overwrite the buyable wepaons from the trader.  
-         *  This should be done in the KFCBMutator class but I can get away with this 
-         *  since I had to overwrite the trader sale list anyways so it would know about 
-         *  the beta HC
-         */
-        i= class'KFCommBeta.KFCBMutator'.static.shouldReplace(String(KFLR.ItemForSale[j]),class'KFCommBeta.KFCBMutator'.default.pickupReplaceArray); 
+    for ( j = 0; j < KFLR.ShopInventory.Length; j++ ) {
+        ForSalePickup = class<KFWeaponPickup>(KFLR.ShopInventory[j].PC);
+
+        i= class'KFCommBeta.KFCBMutator'.static.shouldReplace(String(ForSalePickup),class'KFCommBeta.KFCBMutator'.default.pickupReplaceArray); 
         if (i != -1) {
-            KFLR.ItemForSale[j]= class<Pickup>(class'KFCommBeta.KFCBMutator'.default.pickupReplaceArray[i].newClass);
+            ForSalePickup= class<KFWeaponPickup>(class'KFCommBeta.KFCBMutator'.default.pickupReplaceArray[i].newClass);
+        }
+        
+
+        if ( ForSalePickup==None || ActiveCategory!=KFLR.ShopInventory[j].CatNum
+             || class<KFWeapon>(ForSalePickup.default.InventoryType).default.bKFNeverThrow
+             || IsInInventory(ForSalePickup) )
+            continue;
+
+        // Remove single weld.
+        if ( (ForSalePickup==Class'KFCBDeaglePickup' && IsInInventory(class'KFCBDualDeaglePickup'))
+             || (ForSalePickup==Class'Magnum44Pickup' && IsInInventory(class'Dual44MagnumPickup')) )
+            continue;
+
+        DualDivider = 1;
+        bZeroWeight = false;
+
+        // Make cheaper.
+        if ( (ForSalePickup==Class'KFCBDualDeaglePickup' && IsInInventory(class'KFCBDeaglePickup'))
+             || (ForSalePickup==Class'Dual44MagnumPickup' && IsInInventory(class'Magnum44Pickup')) ) {
+            DualDivider = 2;
+            bZeroWeight = true;
         }
 
-        if ( KFLR.ItemForSale[j] != none )
-        {
-            //Let's see if this is a vest, first aid kit, ammo or stuff we already have
-            if ( class<Vest>(KFLR.ItemForSale[j]) != none || class<FirstAidKit>(KFLR.ItemForSale[j]) != none ||
-                 class<KFWeapon>(KFLR.ItemForSale[j].default.InventoryType) == none || KFLR.ItemForSale[j].IsA('Ammunition') ||
-                 class<KFWeapon>(KFLR.ItemForSale[j].default.InventoryType).default.bKFNeverThrow ||
-                 IsInInventory(KFLR.ItemForSale[j]) ||
-                 class<KFWeaponPickup>(KFLR.ItemForSale[j]).default.CorrespondingPerkIndex != PlayerVeterancy.default.PerkIndex)
-            {
-                continue;
-            }
+        for( i=0; i<KFLR.CachePerks.Length; ++i )
+            if( !KFLR.CachePerks[i].PerkClass.Static.AllowWeaponInTrader(ForSalePickup,KFPRI) )
+                break;
+        if( i<KFLR.CachePerks.Length )
+            continue;
 
-            if ( class<Deagle>(KFLR.ItemForSale[j].default.InventoryType) != none )
-            {
-                if ( IsInInventory(class'KFCommBeta.KFCBDualDeaglePickup') )
-                {
-                    continue;
-                }
-            }
+        ForSaleWeapon =  class<KFWeapon>(ForSalePickup.default.InventoryType);
+        ForSaleBuyable = AllocateEntry();
 
-            if ( class<DualDeagle>(KFLR.ItemForSale[j].default.InventoryType) != none )
-            {
-                if ( IsInInventory(class'KFCommBeta.KFCBDeaglePickup') )
-                {
-                    DualDivider = 2;
-                    bZeroWeight = true;
-                }
-            }
-            else
-            {
-                DualDivider = 1;
-                bZeroWeight = false;
-            }
-
-            if ( ForSaleArrayIndex >= ForSaleBuyables.Length )
-            {
-                ForSaleBuyable = new class'GUIBuyable';
-                ForSaleBuyables[ForSaleBuyables.Length] = ForSaleBuyable;
-            }
-            else
-            {
-                ForSaleBuyable = ForSaleBuyables[ForSaleArrayIndex];
-            }
-
-            ForSaleArrayIndex++;
-
-            ForSalePickup =  class<KFWeaponPickup>(KFLR.ItemForSale[j]);
-
-            ForSaleBuyable.ItemName         = ForSalePickup.default.ItemName;
-            ForSaleBuyable.ItemDescription  = ForSalePickup.default.Description;
-            ForSaleBuyable.ItemCategorie    = KFLR.EquipmentCategories[i].EquipmentCategoryName;
-            ForSaleBuyable.ItemImage        = class<KFWeapon>(ForSalePickup.default.InventoryType).default.TraderInfoTexture;
-            ForSaleBuyable.ItemWeaponClass  = class<KFWeapon>(ForSalePickup.default.InventoryType);
-            ForSaleBuyable.ItemAmmoClass    = class<KFWeapon>(ForSalePickup.default.InventoryType).default.FireModeClass[0].default.AmmoClass;
-            ForSaleBuyable.ItemPickupClass  = ForSalePickup;
-            ForSaleBuyable.ItemCost         = int((float(ForSalePickup.default.Cost)
+        ForSaleBuyable.ItemName         = ForSalePickup.default.ItemName;
+        ForSaleBuyable.ItemDescription      = ForSalePickup.default.Description;
+        ForSaleBuyable.ItemCategorie        = "Melee"; // Dummy stuff..
+        ForSaleBuyable.ItemImage        = ForSaleWeapon.default.TraderInfoTexture;
+        ForSaleBuyable.ItemWeaponClass      = ForSaleWeapon;
+        ForSaleBuyable.ItemAmmoClass        = ForSaleWeapon.default.FireModeClass[0].default.AmmoClass;
+        ForSaleBuyable.ItemPickupClass      = ForSalePickup;
+        ForSaleBuyable.ItemCost         = int((float(ForSalePickup.default.Cost)
                                               * PlayerVeterancy.static.GetCostScaling(KFPRI, ForSalePickup)) / DualDivider);
-            ForSaleBuyable.ItemAmmoCost     = 0;
-            ForSaleBuyable.ItemFillAmmoCost = 0;
+        ForSaleBuyable.ItemAmmoCost     = 0;
+        ForSaleBuyable.ItemFillAmmoCost     = 0;
 
-            if ( bZeroWeight)
-            {
-                ForSaleBuyable.ItemWeight   = 0.f;
-            }
-            else
-            {
-                ForSaleBuyable.ItemWeight   = ForSalePickup.default.Weight;
-            }
+        if ( bZeroWeight)
+            ForSaleBuyable.ItemWeight   = 0.f;
+        else ForSaleBuyable.ItemWeight      = ForSalePickup.default.Weight;
 
-            ForSaleBuyable.ItemPower        = ForSalePickup.default.PowerValue;
-            ForSaleBuyable.ItemRange        = ForSalePickup.default.RangeValue;
-            ForSaleBuyable.ItemSpeed        = ForSalePickup.default.SpeedValue;
-            ForSaleBuyable.ItemAmmoCurrent  = 0;
-            ForSaleBuyable.ItemAmmoMax      = 0;
-            ForSaleBuyable.ItemPerkIndex    = ForSalePickup.default.CorrespondingPerkIndex;
+        ForSaleBuyable.ItemPower        = ForSalePickup.default.PowerValue;
+        ForSaleBuyable.ItemRange        = ForSalePickup.default.RangeValue;
+        ForSaleBuyable.ItemSpeed        = ForSalePickup.default.SpeedValue;
+        ForSaleBuyable.ItemAmmoCurrent      = 0;
+        ForSaleBuyable.ItemAmmoMax      = 0;
+        ForSaleBuyable.ItemPerkIndex        = ForSalePickup.default.CorrespondingPerkIndex;
 
-            // Make sure we mark the list as a sale list
-            ForSaleBuyable.bSaleList = true;
+        // Make sure we mark the list as a sale list
+        ForSaleBuyable.bSaleList = true;
 
-            bZeroWeight = false;
+        // Sort same perk weapons in front.
+        if( ForSalePickup.default.CorrespondingPerkIndex == PlayerVeterancy.default.PerkIndex ) {
+            ForSaleBuyables.Insert(0, 1);
+            ForSaleBuyables[0] = ForSaleBuyable;
         }
-    }
+        else ForSaleBuyables[ForSaleBuyables.Length] = ForSaleBuyable;
 
-    // now the rest
-    for ( j = KFLR.MAX_BUYITEMS - 1; j >= 0; j-- )
-    {
-        if ( KFLR.ItemForSale[j] != none )
-        {
-            //Let's see if this is a vest, first aid kit, ammo or stuff we already have
-            if ( class<Vest>(KFLR.ItemForSale[j]) != none || class<FirstAidKit>(KFLR.ItemForSale[j]) != none ||
-                 class<KFWeapon>(KFLR.ItemForSale[j].default.InventoryType) == none || KFLR.ItemForSale[j].IsA('Ammunition') ||
-                 class<KFWeapon>(KFLR.ItemForSale[j].default.InventoryType).default.bKFNeverThrow ||
-                 IsInInventory(KFLR.ItemForSale[j]) ||
-                 class<KFWeaponPickup>(KFLR.ItemForSale[j]).default.CorrespondingPerkIndex == PlayerVeterancy.default.PerkIndex )
-            {
-                continue;
-            }
-
-            if ( class<Deagle>(KFLR.ItemForSale[j].default.InventoryType) != none )
-            {
-                if ( IsInInventory(class'KFCommBeta.KFCBDualDeaglePickup') )
-                {
-                    continue;
-                }
-            }
-
-            if ( class<DualDeagle>(KFLR.ItemForSale[j].default.InventoryType) != none )
-            {
-                if ( IsInInventory(class'KFCommBeta.KFCBDeaglePickup') )
-                {
-                    DualDivider = 2;
-                    bZeroWeight = true;
-                }
-            }
-            else
-            {
-                DualDivider = 1;
-                bZeroWeight = false;
-            }
-
-            if ( ForSaleArrayIndex >= ForSaleBuyables.Length )
-            {
-                ForSaleBuyable = new class'GUIBuyable';
-                ForSaleBuyables[ForSaleBuyables.Length] = ForSaleBuyable;
-            }
-            else
-            {
-                ForSaleBuyable = ForSaleBuyables[ForSaleArrayIndex];
-            }
-
-            ForSaleArrayIndex++;
-
-            ForSalePickup =  class<KFWeaponPickup>(KFLR.ItemForSale[j]);
-
-            ForSaleBuyable.ItemName         = ForSalePickup.default.ItemName;
-            ForSaleBuyable.ItemDescription  = ForSalePickup.default.Description;
-            ForSaleBuyable.ItemCategorie    = KFLR.EquipmentCategories[i].EquipmentCategoryName;
-
-            if ( class<KFWeapon>(ForSalePickup.default.InventoryType) != none )
-            {
-                ForSaleBuyable.ItemImage        = class<KFWeapon>(ForSalePickup.default.InventoryType).default.TraderInfoTexture;
-                ForSaleBuyable.ItemWeaponClass  = class<KFWeapon>(ForSalePickup.default.InventoryType);
-                ForSaleBuyable.ItemAmmoClass    = class<KFWeapon>(ForSalePickup.default.InventoryType).default.FireModeClass[0].default.AmmoClass;
-            }
-
-            ForSaleBuyable.ItemPickupClass  = ForSalePickup;
-            ForSaleBuyable.ItemCost         = int((float(ForSalePickup.default.Cost)
-                                              * PlayerVeterancy.static.GetCostScaling(KFPRI, ForSalePickup)) / DualDivider);
-            ForSaleBuyable.ItemAmmoCost     = 0;
-            ForSaleBuyable.ItemFillAmmoCost = 0;
-
-            if ( bZeroWeight)
-            {
-                ForSaleBuyable.ItemWeight   = 0.f;
-            }
-            else
-            {
-                ForSaleBuyable.ItemWeight   = ForSalePickup.default.Weight;
-            }
-
-            ForSaleBuyable.ItemPower        = ForSalePickup.default.PowerValue;
-            ForSaleBuyable.ItemRange        = ForSalePickup.default.RangeValue;
-            ForSaleBuyable.ItemSpeed        = ForSalePickup.default.SpeedValue;
-            ForSaleBuyable.ItemAmmoCurrent  = 0;
-            ForSaleBuyable.ItemAmmoMax      = 0;
-            ForSaleBuyable.ItemPerkIndex    = ForSalePickup.default.CorrespondingPerkIndex;
-
-            // Make sure we mark the list as a sale list
-            ForSaleBuyable.bSaleList = true;
-
-            bZeroWeight = false;
-        }
-    }
-
-    if ( ForSaleArrayIndex < ForSaleBuyables.Length )
-    {
-        ForSaleBuyables.Remove(ForSaleArrayIndex, ForSaleBuyables.Length);
+        bZeroWeight = false;
     }
 
     //Now Update the list
