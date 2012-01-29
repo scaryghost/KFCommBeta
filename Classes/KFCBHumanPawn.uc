@@ -27,7 +27,7 @@ simulated event ModifyVelocity(float DeltaTime, vector OldVelocity) {
 
         if ( KFPlayerReplicationInfo(PlayerReplicationInfo) != none && KFPlayerReplicationInfo(PlayerReplicationInfo).ClientVeteranSkill != none )
         {
-            GroundSpeed *= KFPlayerReplicationInfo(PlayerReplicationInfo).ClientVeteranSkill.static.GetMovementSpeedModifier(KFPlayerReplicationInfo(PlayerReplicationInfo));
+            GroundSpeed *= KFPlayerReplicationInfo(PlayerReplicationInfo).ClientVeteranSkill.static.GetMovementSpeedModifier(KFPlayerReplicationInfo(PlayerReplicationInfo), KFGameReplicationInfo(Level.GRI));
         }
     }
 }
@@ -35,6 +35,7 @@ simulated event ModifyVelocity(float DeltaTime, vector OldVelocity) {
 function ServerBuyWeapon( Class<Weapon> WClass ) {
     local Inventory I, J;
     local float Price;
+    local bool bIsDualWeapon, bHasDual9mms, bHasDualHCs, bHasDualRevolvers;
 
     if( !CanBuyNow() || Class<KFWeapon>(WClass)==None || Class<KFWeaponPickup>(WClass.Default.PickupClass)==None ) {
         Return;
@@ -47,54 +48,91 @@ function ServerBuyWeapon( Class<Weapon> WClass ) {
     }
 
     for ( I=Inventory; I!=None; I=I.Inventory ) {
-        if( I.Class==WClass )
-        {
+        if( I.Class==WClass ) {
             Return; // Already has weapon.
+        }
+
+        if ( I.Class == class'KFCBDualies' ) {
+            bHasDual9mms = true;
+        }
+        else if ( I.Class == class'KFCBDualDeagle' ) {
+            bHasDualHCs = true;
+        }
+        else if ( I.Class == class'Dual44Magnum' ) {
+            bHasDualRevolvers = true;
         }
     }
 
-    if ( WClass == class'KFCommBeta.KFCBDualDeagle' ) {
+    if ( WClass == class'KFCBDualDeagle' ) {
         for ( J = Inventory; J != None; J = J.Inventory ) {
-            if ( J.class == class'KFCommBeta.KFCBDeagle' ) {
+            if ( J.class == class'KFCBDeagle' ) {
                 Price = Price / 2;
-                bHasDeagle = true;
+                bHasNonDefaultDualWeapon = true;
+
                 break;
             }
         }
+
+        bIsDualWeapon = true;
+        bHasDualHCs = true;
     }
 
-    if ( !bHasDeagle && !CanCarry(Class<KFWeapon>(WClass).Default.Weight) ) {
-        bHasDeagle = false;
+    if ( WClass == class'Dual44Magnum' ) {
+        for ( J = Inventory; J != None; J = J.Inventory ) {
+            if ( J.class == class'Magnum44Pistol' ) {
+                Price = Price / 2;
+                bHasNonDefaultDualWeapon = true;
+
+                break;
+            }
+        }
+
+        bIsDualWeapon = true;
+        bHasDualRevolvers = true;
+    }
+
+    bIsDualWeapon = bIsDualWeapon || WClass == class'KFCBDualies';
+
+    if ( !bHasNonDefaultDualWeapon && !CanCarry(Class<KFWeapon>(WClass).Default.Weight) ) {
+        bHasNonDefaultDualWeapon = false;
         Return;
     }
 
     if ( PlayerReplicationInfo.Score < Price ) {
-        bHasDeagle = false;
+        bHasNonDefaultDualWeapon = false;
         Return; // Not enough CASH.
     }
 
     I = Spawn(WClass);
 
     if ( I != none ) {
+        if ( KFGameType(Level.Game) != none ) {
+            KFGameType(Level.Game).WeaponSpawned(I);
+        }
+
         KFWeapon(I).UpdateMagCapacity(PlayerReplicationInfo);
         KFWeapon(I).FillToInitialAmmo();
         KFWeapon(I).SellValue = Price * 0.75;
         I.GiveTo(self);
         PlayerReplicationInfo.Score -= Price;
 
+        if ( bIsDualWeapon ) {
+            KFSteamStatsAndAchievements(PlayerReplicationInfo.SteamStatsAndAchievements).OnDualsAddedToInventory(bHasDual9mms, bHasDualHCs, bHasDualRevolvers);
+        }
+
         ClientForceChangeWeapon(I);
     }
 
-    bHasDeagle = false;
+    bHasNonDefaultDualWeapon = false;
 
     SetTraderUpdate();
 }
-
 
 function ServerSellWeapon( Class<Weapon> WClass ) {
     local Inventory I;
     local Single NewSingle;
     local Deagle NewDeagle;
+    local Magnum44Pistol New44Magnum;
     local float Price;
 
     if ( !CanBuyNow() || Class<KFWeapon>(WClass) == none || Class<KFWeaponPickup>(WClass.Default.PickupClass) == none ) {
@@ -115,14 +153,20 @@ function ServerSellWeapon( Class<Weapon> WClass ) {
                 }
             }
 
-            if ( Dualies(I) != none && DualDeagle(I) == none ) {
-                NewSingle = Spawn(class'KFCommBeta.KFCBSingle');
+            if ( Dualies(I) != none && DualDeagle(I) == none && Dual44Magnum(I) == none ) {
+                NewSingle = Spawn(class'KFCBSingle');
                 NewSingle.GiveTo(self);
             }
 
             if ( DualDeagle(I) != none ) {
-                NewDeagle = Spawn(class'KFCommBeta.KFCBDeagle');
+                NewDeagle = Spawn(class'KFCBDeagle');
                 NewDeagle.GiveTo(self);
+                Price = Price / 2;
+            }
+
+            if ( Dual44Magnum(I) != none ) {
+                New44Magnum = Spawn(class'Magnum44Pistol');
+                New44Magnum.GiveTo(self);
                 Price = Price / 2;
             }
 
@@ -137,11 +181,14 @@ function ServerSellWeapon( Class<Weapon> WClass ) {
 
             SetTraderUpdate();
 
+            if ( KFGameType(Level.Game) != none ) {
+                KFGameType(Level.Game).WeaponDestroyed(WClass);
+            }
+
             return;
         }
     }
 }
-
 
 defaultproperties {
     RequiredEquipment(0)="KFMod.Knife"
