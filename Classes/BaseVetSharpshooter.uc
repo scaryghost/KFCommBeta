@@ -42,4 +42,12 @@ static function float GetReloadSpeedModifier(KFPlayerReplicationInfo KFPRI, KFWe
 
 defaultproperties {
      VeterancyName="KFVetSharpshooter"
+
+     LevelEffects(0)="5% more damage with Pistols, Rifle, Crossbow, and M14|5% extra Headshot damage with all weapons|10% discount on Handcannon/M14"
+     LevelEffects(1)="10% more damage with Pistols, Rifle, Crossbow, and M14|25% less recoil with Pistols, Rifle, Crossbow, and M14|10% faster reload with Pistols, Rifle, Crossbow, and M14|10% extra headshot damage|20% discount on Handcannon/44 Magnum/M14"
+     LevelEffects(2)="15% more damage with Pistols, Rifle, Crossbow, and M14|50% less recoil with Pistols, Rifle, Crossbow, and M14|20% faster reload with Pistols, Rifle, Crossbow, and M14|20% extra headshot damage|30% discount on Handcannon/44 Magnum/M14"
+     LevelEffects(3)="20% more damage with Pistols, Rifle, Crossbow, and M14|75% less recoil with Pistols, Rifle, Crossbow, and M14|30% faster reload with Pistols, Rifle, Crossbow, and M14|30% extra headshot damage|40% discount on Handcannon/44 Magnum/M14"
+     LevelEffects(4)="30% more damage with Pistols, Rifle, Crossbow, and M14|75% less recoil with Pistols, Rifle, Crossbow, and M14|40% faster reload with Pistols, Rifle, Crossbow, and M14|40% extra headshot damage|50% discount on Handcannon/44 Magnum/M14"
+     LevelEffects(5)="50% more damage with Pistols, Rifle, Crossbow, and M14|75% less recoil with Pistols, Rifle, Crossbow, and M14|50% faster reload with Pistols, Rifle, Crossbow, and M14|50% extra headshot damage|60% discount on Handcannon/44 Magnum/M14|Spawn with a Lever Action Rifle"
+     LevelEffects(6)="60% more damage with Pistols, Rifle, Crossbow, and M14|75% less recoil with Pistols, Rifle, Crossbow, and M14|60% faster reload with Pistols, Rifle, Crossbow, and M14|50% extra headshot damage|70% discount on Handcannon/44 Magnum/M14|Spawn with a Crossbow"
 }
