@@ -126,7 +126,7 @@ static event string GetDescriptionText(string property) {
 defaultproperties {
     GroupName="KFCommBeta"
     FriendlyName="KF Community Beta"
-    Description="Loads the suggestions given by the community.  This version is in 1.4"
+    Description="Loads the suggestions given by the community.  This is version 1.5.0"
 
     zombieReplaceArray(0)=(oldClass=class'KFChar.ZombieFleshPound',newClass=class'KFCommBeta.KFCBZombieFleshPound',bReplace=true)
     zombieReplaceArray(1)=(oldClass=class'KFChar.ZombieGorefast',newClass=class'KFCommBeta.KFCBZombieGorefast',bReplace=true)
@@ -150,6 +150,7 @@ defaultproperties {
     pickupReplaceArray(9)=(oldClass=class'KFMod.DualDeaglePickup',newClass=class'KFCommBeta.KFCBDualDeaglePickup',bReplace=true)
     pickupReplaceArray(10)=(oldClass=class'KFMod.Dual44MagnumPickup',newClass=class'KFCommBeta.KFCBDual44MagnumPickup',bReplace=true)
     pickupReplaceArray(11)=(oldClass=class'KFMod.Magnum44Pickup',newClass=class'KFCommBeta.KFCBMagnum44Pickup',bReplace=true)
+    pickupReplaceArray(12)=(oldClass=class'KFMod.HuskGunPickup',newClass=class'KFCommBeta.KFCBHuskGunPickup',bReplace=true)
 
     ammoReplaceArray(0)=(oldClass=class'KFMod.ChainsawAmmo',newClass=class'KFCommBeta.KFCBChainsawAmmo',bReplace=true)
 
