@@ -1,6 +1,6 @@
 class KFCBHuskGun extends Huskgun;
 
-var float ammoRegenRate, ammoRegenCount;
+var float ammoRegenRate, ammoRegenCount, msgTimer;
 var int coolDownLimit;
 var bool bIsInCoolDown;
 
@@ -15,6 +15,13 @@ simulated function Tick(float delta) {
         if (FireMode[0].AmmoPerFire > 0 && InventoryGroup > 0 && !bMeleeWeapon && bConsumesPhysicalAmmo &&
                 !(Ammo[0] == none || FireMode[0] == none || FireMode[0].AmmoPerFire <= 0 || Ammo[0].AmmoAmount < coolDownLimit)) {
             bIsInCoolDown= false;
+            msgTimer= 0;
+        } else if (bIsInCoolDown) {
+            msgTimer+= delta;
+            if (msgTimer > class'KFCBOverHeatMessage'.default.LifeTime) {
+                PlayerController(KFCBHumanPawn(Owner).Controller).ReceiveLocalizedMessage(class'KFCBOverHeatMessage');
+                msgTimer= 0;
+            }
         }
     }
 }
