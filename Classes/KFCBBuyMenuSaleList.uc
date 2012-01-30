@@ -83,6 +83,9 @@ function UpdateForSaleBuyables() {
 
         if ( bZeroWeight)
             ForSaleBuyable.ItemWeight   = 0.f;
+        else if (KFCBHumanPawn(KFCBPlayerController(PlayerOwner()).Pawn).hasWeaponInInventory(class'KFCBMagnum44Pistol')
+                && ForSalePickup == class'KFCBDual44MagnumPickup')
+            ForSaleBuyable.ItemWeight= ForSalePickup.default.Weight/2;
         else ForSaleBuyable.ItemWeight      = ForSalePickup.default.Weight;
 
         ForSaleBuyable.ItemPower        = ForSalePickup.default.PowerValue;

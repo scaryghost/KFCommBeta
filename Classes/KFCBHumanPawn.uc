@@ -32,6 +32,17 @@ simulated event ModifyVelocity(float DeltaTime, vector OldVelocity) {
     }
 }
 
+function bool hasWeaponInInventory(class<Weapon> wClass) {
+    local Inventory I;
+
+    for ( I=Inventory; I!=None; I=I.Inventory ) {
+        if (I.Class == wClass) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function ServerBuyWeapon( Class<Weapon> WClass ) {
     local Inventory I, J;
     local float Price;
