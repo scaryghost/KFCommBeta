@@ -12,7 +12,8 @@ static function int AddDamage(KFPlayerReplicationInfo KFPRI, KFMonster Injured, 
      *      Gave damage bonus to dual 9mm, up to 60% at level 6
      */
     if ( DmgType == class'DamTypeBullpup' || DmgType == class'DamTypeAK47AssaultRifle' 
-        || DmgType == class'DamTypeSCARMK17AssaultRifle' || DmgType == class'DamTypeDualies') {
+        || DmgType == class'DamTypeSCARMK17AssaultRifle' || DmgType == class'DamTypeM4AssaultRifle'
+        || DmgType == class'DamTypeDualies') {
         if ( KFPRI.ClientVeteranSkillLevel == 0 )
             return float(InDamage) * 1.05;
         return float(InDamage) * (1.00 + (0.10 * float(KFPRI.ClientVeteranSkillLevel)));
@@ -25,7 +26,8 @@ static function float ModifyRecoilSpread(KFPlayerReplicationInfo KFPRI, WeaponFi
      *  Wave 5: Added dualies to the recoil reduction bonus, 40% @ level 6
      */
     if ( Bullpup(Other.Weapon) != none || AK47AssaultRifle(Other.Weapon) != none 
-        || SCARMK17AssaultRifle(Other.Weapon) != none || KFCBDualies(Other.Weapon) != none) {
+        || SCARMK17AssaultRifle(Other.Weapon) != none || M4AssaultRifle(Other.Weapon) != none
+        || KFCBDualies(Other.Weapon) != none) {
         if ( KFPRI.ClientVeteranSkillLevel <= 3 )
             Recoil = 0.95 - (0.05 * float(KFPRI.ClientVeteranSkillLevel));
         else if ( KFPRI.ClientVeteranSkillLevel <= 5 )

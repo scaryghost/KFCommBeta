@@ -5,7 +5,8 @@ static function float AddExtraAmmoFor(KFPlayerReplicationInfo KFPRI, Class<Ammun
     /**
      *  Wave 1 - Removed extra frag capacity
      */
-    if ( AmmoType == class'ShotgunAmmo' || AmmoType == class'DBShotgunAmmo' || AmmoType == class'AA12Ammo' ) {
+    if ( AmmoType == class'ShotgunAmmo' || AmmoType == class'DBShotgunAmmo'
+        || AmmoType == class'BenelliAmmo' || AmmoType == class'AA12Ammo' ) {
         if ( KFPRI.ClientVeteranSkillLevel > 0 ) {
             if ( KFPRI.ClientVeteranSkillLevel == 1 )
                 return 1.10;
@@ -25,7 +26,8 @@ static function int AddDamage(KFPlayerReplicationInfo KFPRI, KFMonster Injured, 
      *  Wave 5 - Added damage bonus for dual hand cannons, up to 60% at level 6
      */
     if ( DmgType == class'DamTypeShotgun' || DmgType == class'DamTypeDBShotgun' 
-        || DmgType == class'DamTypeAA12Shotgun' || DmgType == class'DamTypeDualDeagle') {
+        || DmgType == class'DamTypeAA12Shotgun' || DmgType == class'DamTypeDualDeagle'
+        || DmgType == class'DamTypeBenelli') {
         if ( KFPRI.ClientVeteranSkillLevel == 0 )
             return float(InDamage) * 1.10;
         return float(InDamage) * (1.00 + (0.10 * KFPRI.ClientVeteranSkillLevel)); 

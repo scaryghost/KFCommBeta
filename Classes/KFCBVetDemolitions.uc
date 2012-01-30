@@ -11,7 +11,7 @@ static function AddDefaultInventory(KFPlayerReplicationInfo KFPRI, Pawn P) {
      *      Give M79 to demo at level 5
      *      Give M79 and 3 extra frags at level 6
      */
-    if ( KFPRI.ClientVeteranSkillLevel >= 5 )
+    if ( KFPRI.ClientVeteranSkillLevel == 5 )
         KFHumanPawn(P).CreateInventoryVeterancy("KFMod.M79GrenadeLauncher", GetCostScaling(KFPRI, class'M79Pickup'));
     if ( KFPRI.ClientVeteranSkillLevel >= 6) {
         for ( CurInv = P.Inventory; CurInv != none; CurInv = CurInv.Inventory ) {

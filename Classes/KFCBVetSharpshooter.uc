@@ -18,7 +18,8 @@ static function float GetCostScaling(KFPlayerReplicationInfo KFPRI, class<Pickup
      *      Added discount for the winchester
      */
     if ( Item == class'KFCommBeta.KFCBDeaglePickup' || Item == class'KFCommBeta.KFCBDualDeaglePickup' 
-        || Item == class'KFCommBeta.KFCBM14EBRPickup' || Item == class'KFCommBeta.KFCBWinchesterPickup')
+        || Item == class'KFCommBeta.KFCBM14EBRPickup' || Item == class'KFCommBeta.KFCBWinchesterPickup'
+        || Item == class'Magnum44Pickup' || Item == class'Dual44MagnumPickup')
         return FMax(0.9 - (0.10 * float(KFPRI.ClientVeteranSkillLevel)),0.3f); // Up to 70% discount on Handcannon/Dual Handcannons/EBR
     return 1.0;
 }
