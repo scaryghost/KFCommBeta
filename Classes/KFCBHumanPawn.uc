@@ -58,7 +58,7 @@ function ServerBuyWeapon( Class<Weapon> WClass ) {
         else if ( I.Class == class'KFCBDualDeagle' ) {
             bHasDualHCs = true;
         }
-        else if ( I.Class == class'Dual44Magnum' ) {
+        else if ( I.Class == class'KFCBDual44Magnum' ) {
             bHasDualRevolvers = true;
         }
     }
@@ -77,11 +77,10 @@ function ServerBuyWeapon( Class<Weapon> WClass ) {
         bHasDualHCs = true;
     }
 
-    if ( WClass == class'Dual44Magnum' ) {
+    if ( WClass == class'KFCBDual44Magnum' ) {
         for ( J = Inventory; J != None; J = J.Inventory ) {
-            if ( J.class == class'Magnum44Pistol' ) {
+            if ( J.class == class'KFCBMagnum44Pistol' ) {
                 Price = Price / 2;
-                bHasNonDefaultDualWeapon = true;
 
                 break;
             }
@@ -165,7 +164,7 @@ function ServerSellWeapon( Class<Weapon> WClass ) {
             }
 
             if ( Dual44Magnum(I) != none ) {
-                New44Magnum = Spawn(class'Magnum44Pistol');
+                New44Magnum = Spawn(class'KFCBMagnum44Pistol');
                 New44Magnum.GiveTo(self);
                 Price = Price / 2;
             }
