@@ -46,17 +46,18 @@ function UpdateForSaleBuyables() {
 
         // Remove single weld.
         if ( (ForSalePickup==Class'KFCBDeaglePickup' && IsInInventory(class'KFCBDualDeaglePickup'))
-             || (ForSalePickup==Class'Magnum44Pickup' && IsInInventory(class'Dual44MagnumPickup')) )
+             || (ForSalePickup==Class'KFCBMagnum44Pickup' && IsInInventory(class'KFCBDual44MagnumPickup')) )
             continue;
 
         DualDivider = 1;
         bZeroWeight = false;
 
-        // Make cheaper.
-        if ( (ForSalePickup==Class'KFCBDualDeaglePickup' && IsInInventory(class'KFCBDeaglePickup'))
-             || (ForSalePickup==Class'Dual44MagnumPickup' && IsInInventory(class'Magnum44Pickup')) ) {
+        // Make cheaper and lighter.
+        if ( (ForSalePickup==Class'KFCBDualDeaglePickup' && IsInInventory(class'KFCBDeaglePickup'))) {
             DualDivider = 2;
             bZeroWeight = true;
+        } else if (ForSalePickup==Class'KFCBDual44MagnumPickup' && IsInInventory(class'KFCBMagnum44Pickup')) {
+            DualDivider = 2;
         }
 
         for( i=0; i<KFLR.CachePerks.Length; ++i )

@@ -148,6 +148,8 @@ defaultproperties {
     pickupReplaceArray(7)=(oldClass=class'KFMod.DualiesPickup',newClass=class'KFCommBeta.KFCBDualiesPickup',bReplace=true)
     pickupReplaceArray(8)=(oldClass=class'KFMod.DeaglePickup',newClass=class'KFCommBeta.KFCBDeaglePickup',bReplace=true)
     pickupReplaceArray(9)=(oldClass=class'KFMod.DualDeaglePickup',newClass=class'KFCommBeta.KFCBDualDeaglePickup',bReplace=true)
+    pickupReplaceArray(10)=(oldClass=class'KFMod.Dual44MagnumPickup',newClass=class'KFCommBeta.KFCBDual44MagnumPickup',bReplace=true)
+    pickupReplaceArray(11)=(oldClass=class'KFMod.Magnum44Pickup',newClass=class'KFCommBeta.KFCBMagnum44Pickup',bReplace=true)
 
     ammoReplaceArray(0)=(oldClass=class'KFMod.ChainsawAmmo',newClass=class'KFCommBeta.KFCBChainsawAmmo',bReplace=true)
 
