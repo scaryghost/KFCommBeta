@@ -46,7 +46,7 @@ function bool hasWeaponInInventory(class<Weapon> wClass) {
 function ServerBuyWeapon( Class<Weapon> WClass ) {
     local Inventory I, J;
     local float Price;
-    local bool bIsDualWeapon, bHasDual9mms, bHasDualHCs, bHasDualRevolvers;
+    local bool bIsDualWeapon, bHasDual9mms, bHasDualHCs, bHasDualRevolvers, bHasSingleMagnum, bCanCarry;
 
     if( !CanBuyNow() || Class<KFWeapon>(WClass)==None || Class<KFWeaponPickup>(WClass.Default.PickupClass)==None ) {
         Return;
@@ -71,6 +71,8 @@ function ServerBuyWeapon( Class<Weapon> WClass ) {
         }
         else if ( I.Class == class'KFCBDual44Magnum' ) {
             bHasDualRevolvers = true;
+        } else if (I.class == class'KFCBMagnum44Pistol') {
+            bHasSingleMagnum= true;
         }
     }
 
@@ -103,7 +105,10 @@ function ServerBuyWeapon( Class<Weapon> WClass ) {
 
     bIsDualWeapon = bIsDualWeapon || WClass == class'KFCBDualies';
 
-    if ( !bHasNonDefaultDualWeapon && !CanCarry(Class<KFWeapon>(WClass).Default.Weight) ) {
+    bCanCarry= bHasNonDefaultDualWeapon || 
+            (WClass == class'KFCBDual44Magnum' && bHasSingleMagnum && CanCarry(Class<KFWeapon>(WClass).Default.Weight/2)
+            ||  CanCarry(Class<KFWeapon>(WClass).Default.Weight));
+    if (!bCanCarry) {
         bHasNonDefaultDualWeapon = false;
         Return;
     }
