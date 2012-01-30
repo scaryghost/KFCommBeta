@@ -94,7 +94,10 @@ function ServerBuyWeapon( Class<Weapon> WClass ) {
         for ( J = Inventory; J != None; J = J.Inventory ) {
             if ( J.class == class'KFCBMagnum44Pistol' ) {
                 Price = Price / 2;
-
+                /** 
+                 *  Removed setting bHasNonDefaultDualWeapon to true here because 
+                 *  it would give dual magnums for no weight
+                 */
                 break;
             }
         }

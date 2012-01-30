@@ -57,6 +57,7 @@ function UpdateForSaleBuyables() {
             DualDivider = 2;
             bZeroWeight = true;
         } else if (ForSalePickup==Class'KFCBDual44MagnumPickup' && IsInInventory(class'KFCBMagnum44Pickup')) {
+            /** Do not give dual magnums 0 weight */
             DualDivider = 2;
         }
 
@@ -85,6 +86,10 @@ function UpdateForSaleBuyables() {
             ForSaleBuyable.ItemWeight   = 0.f;
         else if (KFCBHumanPawn(KFCBPlayerController(PlayerOwner()).Pawn).hasWeaponInInventory(class'KFCBMagnum44Pistol')
                 && ForSalePickup == class'KFCBDual44MagnumPickup')
+        /**
+         *  Added this so dual magnums would only add 2 blocks if the 
+         *  player already has single magnum
+         */
             ForSaleBuyable.ItemWeight= ForSalePickup.default.Weight/2;
         else ForSaleBuyable.ItemWeight      = ForSalePickup.default.Weight;
 

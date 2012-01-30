@@ -8,8 +8,11 @@ simulated function bool PutDown() {
     return super(KFWeapon).PutDown();
 }
 
-
 defaultproperties {
+    /**
+     *  Wave 6
+     *      Changed single magnum weight back to 2
+     */
     Weight=2.000000
     ItemName="KFCommBeta 44 Magnum"
     PickupClass=Class'KFCommBeta.KFCBMagnum44Pickup'
