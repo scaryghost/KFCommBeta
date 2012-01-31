@@ -17,23 +17,17 @@ simulated function Tick(float delta) {
             bIsInCoolDown= false;
             msgTimer= 0;
         } else if (bIsInCoolDown) {
-            msgTimer+= delta;
-            if (msgTimer > class'KFCBOverHeatMessage'.default.LifeTime) {
+            msgTimer-= delta;
+            if (msgTimer <= 0) {
                 PlayerController(KFCBHumanPawn(Owner).Controller).ReceiveLocalizedMessage(class'KFCBOverHeatMessage');
-                msgTimer= 0;
+                msgTimer= class'KFCBOverHeatMessage'.default.LifeTime;
             }
         }
     }
 }
 
-simulated function bool ConsumeAmmo(int Mode, float load, optional bool bAmountNeededIsMax) {
-
-    if ( FireMode[Mode].AmmoPerFire > 0 && InventoryGroup > 0 && !bMeleeWeapon && bConsumesPhysicalAmmo &&
-            (Ammo[0] == none || FireMode[0] == none || FireMode[0].AmmoPerFire <= 0 || Ammo[0].AmmoAmount < FireMode[0].AmmoPerFire)) {
-        bIsInCoolDown= true;
-    }
-    
-    return super.ConsumeAmmo(Mode, load, bAmountNeededIsMax);
+simulated function OutOfAmmo() {
+    bIsInCoolDown= true;
 }
 
 defaultproperties {
